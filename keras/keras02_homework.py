@@ -15,7 +15,7 @@ model.add(Dense(1, input_dim=1)) #input_dim은 위에 데이터 하나를 통으
 
 #3. 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam') #mae를 사용함. optimizer='adam 로스를 최적화시키는 것에 아담을 이용함.
-model.fit(x, y, epochs=3000) #x데이터와 y데이터를 훈련시킴, epochs는 훈련시키는 횟수, 할 때마다 시작값이 달라서 에측값이 달라짐. 최적의 수치도 찾아야함.
+model.fit(x, y, epochs=3000) #x데이터와 y데이터를 훈련시킴, epochs는 훈련시키는 횟수, 할 때마다 시작값이 달라서 예측값이 달라짐. 최적의 수치도 찾아야함.
 
 #4. 평가, 예측
 result = model.predict([13]) #13의 데이터값을 예측
