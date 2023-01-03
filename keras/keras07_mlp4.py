@@ -15,7 +15,17 @@ print(y.shape)
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(5, input_dim=1))    #input_dim= 의 갯수는 열의 수와 같다. 열(컬럼, 피처, 속성) 행무시 열우선
+model.add(Dense(5, input_dim=1)) #input_dim= 의 갯수는 열의 수와 같다. 열(컬럼, 피처, 속성) 행무시 열우선
+model.add(Dense(1000))
+model.add(Dense(900))
+model.add(Dense(800))
+model.add(Dense(700))
+model.add(Dense(600))
+model.add(Dense(500))
+model.add(Dense(400))
+model.add(Dense(300))
+model.add(Dense(200))
+model.add(Dense(100))
 model.add(Dense(50))
 model.add(Dense(40))
 model.add(Dense(30))
@@ -28,7 +38,7 @@ model.add(Dense(3))
 
 #3. 컴파일, 훈련
 model.compile(loss='mae', optimizer='adam')
-model.fit(x, y, epochs=2000, batch_size=10)
+model.fit(x, y, epochs=2000, batch_size=20)
 
 loss = model.evaluate(x, y)
 print('loss : ', loss)
