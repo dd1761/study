@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 #1. 데이터
 x = np.array(range(1,21))
-y = np.array([1,2,4,3,5,7,9,3,8,12,13,8,14,15,9,6,17,23,21,20])
+y = np.array([1,2,4,3,5,7,9,3,8,12,13,8,14,15,9,6,17,23,21,20]) 
 
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y,
@@ -30,8 +30,8 @@ model.fit(x_train, y_train, epochs=200, batch_size=1)
 loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)
 
-y_predict = model.predict(x)
-import matplotlib.pyplot as plt
-plt.scatter(x, y)
-plt.plot(x, y_predict, color='red')
-plt.show()
+y_predict = model.predict(x)                            
+import matplotlib.pyplot as plt                         # matplotlib의 pyplot를 사용. plt라고 사용
+plt.scatter(x, y)                                       # plt화면에 x,y 자리에 점을 찍을 것.
+plt.plot(x, y_predict, color='red')                     # plt화면에 x와 y_predict값으로 빨간줄 생성.
+plt.show()                                              # plt화면을 보여준다.
