@@ -8,12 +8,12 @@ x = np.array([range(10), range(21, 31), range(201, 211)])
 # print(range(10))
 
 
-x = x.T # (10,3)
+x = x.T                                         # (3,10) -> (10,3)
 # print(x.shape)
 
 y = np.array([[1,2,3,4,5,6,7,8,9,10],
              [1,1,1,1,2,1.3,1.4,1.5,1.6,1.4]])
-y = y.T #(10,2)
+y = y.T                                         # (2,10) -> (10,2)
 # print(y.shape)
 
 x_train, x_test, y_train, y_test = train_test_split(
