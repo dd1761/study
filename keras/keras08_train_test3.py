@@ -21,12 +21,12 @@ x_train, x_test, y_train, y_test = train_test_split(
 # y_test = y[7:]
 
 
-print('x_train : ', x_train)
-print('x_test : ', x_test)
-print('y_train : ', y_train)
-print('y_test : ', y_test)
+# print('x_train : ', x_train)
+# print('x_test : ', x_test)
+# print('y_train : ', y_train)
+# print('y_test : ', y_test)
 
-'''
+
 #2. 모델구성
 model = Sequential()
 model.add(Dense(10, input_dim=1))
@@ -46,7 +46,7 @@ model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss="mae", optimizer="adam")
-model.fit(x_train,y_train, epochs=500, batch_size=1)
+model.fit(x_train,y_train, epochs=2000, batch_size=1)
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -54,7 +54,7 @@ print('loss : ', loss)
 result = model.predict([11])
 print('[11]의 결과 : ', result)
 
-'''
+
 
 '''
 model.fit(x_train,y_train, epochs=5000, batch_size=1)
