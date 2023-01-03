@@ -10,9 +10,9 @@ y = np.array(range(10)) #(10, )
 x_train, x_test, y_train, y_test = train_test_split(
     x, y,
     train_size=0.7,
-    #test_size=0.3, #(두개 중 하나만 쓰면 가능, 두개 중 어떤것을 사용해도 같은 결과가 나옴) 
-    # shuffle=False, #(shuffle는 기본적으로 True가 탑재되어있다.) 
-    random_state=123 #(random_state를 사용하지 않으면 사용 할때마다 값이 바뀌게 된다.)
+    #test_size=0.3,                                     #(두개 중 하나만 쓰면 가능, 두개 중 어떤것을 사용해도 같은 결과가 나옴) 
+    # shuffle=False,                                    #(shuffle는 기본적으로 True가 탑재되어있다.) 
+    random_state=123                                    #(random_state를 사용하지 않으면 사용 할때마다 값이 바뀌게 된다.)
 )
 
 # x_train = x[:7]
