@@ -18,7 +18,7 @@ y = datasets.target
 
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y,
-    train_size=0.7,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
+    train_size=0.8,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
     shuffle=True,                                       #shuffle=True면 랜덤데이터를 사용. shuffle=False면 순차적인 데이터를 사용.
     random_state=123                                    #random_state는 123번에 저장되어있는 랜덤데이터를 사용. 
                                                         #random_state를 사용하지 않으면 프로그램을 실행할 때마다 값이 달라진다.
@@ -107,4 +107,4 @@ R2 :  0.5448990822414606
 
 
 
-# 위 train size 0.7 batch 10 아래 0.9 5
+# 위 20 아래 18
