@@ -1,23 +1,24 @@
-#평가지표 : R2, RMSE
-#1. train 0.7 이상
-#2. R2 : 0.8 이상 / RMSE 사용
-
-
-
-from sklearn.datasets import load_boston
+# [실습]
+# R2 0.55~0.6 이상
+from sklearn.datasets import fetch_california_housing
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import numpy as np
 from sklearn.model_selection import train_test_split
 
 #1. 데이터
-dataset = load_boston()
-x = dataset.data
-y = dataset.target
+datasets = fetch_california_housing()
+x = datasets.data
+y = datasets.target
+
+# print(x)
+# print(x.shape)  # (20640, 8) input_dim=8
+# print(y)
+# print(y.shape)  # (20640, ) 
 
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y,
-    train_size=0.7,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
+    train_size=0.9,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
     shuffle=True,                                       #shuffle=True면 랜덤데이터를 사용. shuffle=False면 순차적인 데이터를 사용.
     random_state=123                                    #random_state는 123번에 저장되어있는 랜덤데이터를 사용. 
                                                         #random_state를 사용하지 않으면 프로그램을 실행할 때마다 값이 달라진다.
@@ -31,13 +32,19 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(13, input_dim=13))
+model.add(Dense(10, input_dim=8))
+model.add(Dense(9))
+model.add(Dense(8))
+model.add(Dense(7))
+model.add(Dense(6))
+model.add(Dense(5))
+model.add(Dense(4))
+model.add(Dense(3))
 model.add(Dense(2))
 model.add(Dense(1))
-
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=500, batch_size=1) 
+model.fit(x_train, y_train, epochs=300, batch_size=10) 
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -54,13 +61,8 @@ print('RMSE : ', RMSE(y_test, y_predict))
 r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
 print("R2 : ", r2)
 
-
 '''
-train_size=0.9
-model.add(Dense(13, input_dim=13))
-model.add(Dense(12))
-model.add(Dense(11))
-model.add(Dense(10))
+model.add(Dense(10, input_dim=8))
 model.add(Dense(9))
 model.add(Dense(8))
 model.add(Dense(7))
@@ -70,10 +72,33 @@ model.add(Dense(4))
 model.add(Dense(3))
 model.add(Dense(2))
 model.add(Dense(1))
+model.fit(x_train, y_train, epochs=150, batch_size=2)
+loss :  [0.6231525540351868, 0.57588130235672]
+RMSE :  0.7894000789883663
+R2 :  0.5287320375789096
 
-model.fit(x_train, y_train, epochs=1500, batch_size=2)
+model.fit(x_train, y_train, epochs=200, batch_size=20) 
+loss :  [0.6139920353889465, 0.5703482031822205]
+RMSE :  0.783576320860465
+R2 :  0.5356598978855484
 
-loss :  [41.921592712402344, 4.459842681884766]
-RMSE :  6.474688556298433
-R2 :  0.6333288097149756
+
+train_size=0.7,
+model.fit(x_train, y_train, epochs=300, batch_size=20)
+loss :  [0.6077343821525574, 0.584107518196106]
+RMSE :  0.7795733019342688
+R2 :  0.5403920835902903
+
+
+train_size=0.9,
+model.fit(x_train, y_train, epochs=300, batch_size=15) 
+loss :  [0.6338421106338501, 0.584040641784668]
+RMSE :  0.7961420505888598
+R2 :  0.5451175873335106
+
 '''
+
+
+
+
+# 위 20 아래 18

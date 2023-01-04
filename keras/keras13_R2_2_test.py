@@ -55,7 +55,7 @@ model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])   #mae는 평균절대오차 mse는 평균제곱오차. metrics의 리스트는 두개이상 사용 가능
-model.fit(x_train, y_train, epochs=1500, batch_size=1)                                    #loss는 가중치 갱신을 할 때 영향을 미친다. loss는 훈련에 영향을 미친다.
+model.fit(x_train, y_train, epochs=100, batch_size=1)                                    #loss는 가중치 갱신을 할 때 영향을 미친다. loss는 훈련에 영향을 미친다.
 
 #4. 평가 예측
 loss = model.evaluate(x_test, y_test)
