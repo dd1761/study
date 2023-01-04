@@ -39,15 +39,11 @@ print('===================================')
 
 
 
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, r2_score        # r2는 수식이 존재해 임포트만 하면 사용할 수 있다.
 def RMSE(y_test, y_predict):
     return np.sqrt(mean_squared_error(y_test, y_predict))       # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
 
 print('RMSE : ', RMSE(y_test, y_predict))
-#RMSE :  3.866726496239318
-#RMSE :  3.8787106237887805
-#RMSE :  3.847617221633833
-# 훈련시킬 때 RMSE의 가중치(loss) 값 중 가장 좋은 값을 저장해두었다가 나중에 꺼내서 쓰면 된다.
-'''
-loss :  [14.850972175598145, 3.0024375915527344] 처음 나온 것이 loss값, 두번 째 값부터 metrics의 값.
-'''
+
+r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
+print("R2 : ", r2)
