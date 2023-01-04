@@ -44,7 +44,7 @@ model.add(Dense(2))
 model.add(Dense(1))
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=500, batch_size=20) 
+model.fit(x_train, y_train, epochs=100, batch_size=20) 
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -102,9 +102,21 @@ loss :  [0.6341466307640076, 0.5916329026222229]
 RMSE :  0.7963332430832786
 R2 :  0.5448990822414606
 
+train_size=0.9
+model.fit(x_train, y_train, epochs=500, batch_size=10)
+loss :  [0.6202331781387329, 0.5870667695999146]
+RMSE :  0.7875488180496302
+R2 :  0.5548842232127666
+
+train_size=0.9
+model.fit(x_train, y_train, epochs=500, batch_size=10)
+loss :  [0.625799834728241, 0.5841844081878662]
+RMSE :  0.7910751256381253
+R2 :  0.5508892221694226
+
 '''
 
 
 
 
-# 위 train size 0.9 batch 20 500 중간 
+# 위 train size 0.9 batch 20 500 중간 마지막 보스턴
