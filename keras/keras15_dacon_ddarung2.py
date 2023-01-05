@@ -78,8 +78,11 @@ model.add(Dense(1))
 
 
 #3. 컴파일, 훈련
+import time
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs=200000, batch_size=1)
+start = time.time()
+model.fit(x_train, y_train, epochs=100, batch_size=1)
+end = time.time()
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -98,6 +101,7 @@ def RMSE(y_test, y_predict):
 rmse = RMSE(y_test, y_predict)
 print('RMSE : ', rmse)      
 
+print('걸린시간 : ', end-start)
 
 
 # 제출할 데이터
@@ -115,6 +119,8 @@ submission['count'] = y_submit
 
 submission.to_csv(path + 'submission_01050251.csv')
 
+# CPU 걸린시간 : 
+# GPU 걸린시간 :
 
 
 '''
