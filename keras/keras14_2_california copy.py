@@ -26,7 +26,6 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #print(x_train.shape)
 #print(dataset.feature_names)    #['CRIM' 'ZN' 'INDUS' 'CHAS' 'NOX' 'RM' 'AGE' 'DIS' 'RAD' 'TAX' 'PTRATIO''B' 'LSTAT']
-
 #print(datasets.DESCR)
 
 
@@ -42,6 +41,7 @@ model.add(Dense(4))
 model.add(Dense(3))
 model.add(Dense(2))
 model.add(Dense(1))
+
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 model.fit(x_train, y_train, epochs=500, batch_size=10) 
@@ -66,7 +66,7 @@ model.add(Dense(10, input_dim=8))
 model.add(Dense(9))
 model.add(Dense(8))
 model.add(Dense(7))
-model.add(Dense(6))
+model.add(Dense(6))4
 model.add(Dense(5))
 model.add(Dense(4))
 model.add(Dense(3))

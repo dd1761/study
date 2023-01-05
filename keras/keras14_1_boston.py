@@ -17,7 +17,7 @@ y = dataset.target
 
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y,
-    train_size=0.7,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
+    train_size=0.9,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
     shuffle=True,                                       #shuffle=True면 랜덤데이터를 사용. shuffle=False면 순차적인 데이터를 사용.
     random_state=123                                    #random_state는 123번에 저장되어있는 랜덤데이터를 사용. 
                                                         #random_state를 사용하지 않으면 프로그램을 실행할 때마다 값이 달라진다.
@@ -32,31 +32,31 @@ x_train, x_test, y_train, y_test = train_test_split(
 #2. 모델구성
 model = Sequential()
 model.add(Dense(10, input_dim=13))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
-model.add(Dense(2))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
+model.add(Dense(20))
 model.add(Dense(2))
 model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=10000, batch_size=10) 
+model.fit(x_train, y_train, epochs=10000, batch_size=1) 
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
