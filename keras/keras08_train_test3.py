@@ -42,7 +42,7 @@ model.add(Dense(16))
 model.add(Dense(10))
 model.add(Dense(5))
 model.add(Dense(1))
-
+#11
 
 #3. 컴파일, 훈련
 model.compile(loss="mae", optimizer="adam")
