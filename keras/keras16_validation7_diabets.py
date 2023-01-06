@@ -25,12 +25,11 @@ model = Sequential()
 model.add(Dense(20, input_dim=10, activation='relu'))
 model.add(Dense(40, activation='relu'))
 model.add(Dense(20, activation='relu'))
-model.add(Dense(10, activation='relu'))
 model.add(Dense(1, activation='linear'))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=1000 , batch_size=10, validation_split=0.3) 
+model.fit(x_train, y_train, epochs=100 , batch_size=10, validation_split=0.3) 
 
 loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)
@@ -111,4 +110,14 @@ model.add(Dense(1, activation='linear'))
 model.fit(x_train, y_train, epochs=1000 , batch_size=32, validation_split=0.4)
 RMSE :  45.48263612107315
 R2 :  0.6898027788851249
+
+
+train_size=0.9
+model.add(Dense(20, input_dim=10, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(20, activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=1000 , batch_size=10, validation_split=0.3) 
+RMSE :  44.62543917832112
+R2 :  0.7013849765839075
 '''
