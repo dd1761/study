@@ -32,19 +32,13 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(16, input_dim=8))
+model.add(Dense(16, input_dim=8, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
-model.add(Dense(15, activation='relu'))
-model.add(Dense(14, activation='relu'))
-model.add(Dense(13, activation='relu'))
-model.add(Dense(12, activation='relu'))
-model.add(Dense(11, activation='relu'))
-model.add(Dense(10, activation='relu'))
 model.add(Dense(1, activation='linear'))
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=1000, batch_size=20, validation_split=0.25) 
+model.fit(x_train, y_train, epochs=100, batch_size=20, validation_split=0.25) 
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
@@ -63,6 +57,20 @@ print("R2 : ", r2)
 
 '''
 
+model = Sequential()
+model.add(Dense(16, input_dim=8, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(15, activation='relu'))
+model.add(Dense(14, activation='relu'))
+model.add(Dense(13, activation='relu'))
+model.add(Dense(12, activation='relu'))
+model.add(Dense(11, activation='relu'))
+model.add(Dense(10, activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=1000, batch_size=20, validation_split=0.25) 
+RMSE :  0.6653121203589807
+R2 :  0.6823353489455448
 '''
 
 
