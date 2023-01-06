@@ -42,7 +42,7 @@ y = train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.7,
+    train_size=0.9,
     shuffle=True,
     random_state=1234
 )
@@ -61,7 +61,7 @@ model.add(Dense(12,activation='relu'))
 model.add(Dense(11,activation='relu'))
 model.add(Dense(10,activation='relu'))
 model.add(Dense(9,activation='relu'))
-model.add(Dense(1, activation='relu'))
+model.add(Dense(1, activation='linear'))
 
 
 
@@ -69,7 +69,7 @@ model.add(Dense(1, activation='relu'))
 import time
 model.compile(loss='mse', optimizer='adam')
 start = time.time()
-model.fit(x_train, y_train, epochs=500, batch_size=32)
+model.fit(x_train, y_train, epochs=100000, batch_size=100)
 end = time.time()
 
 #4. 평가, 예측
@@ -109,3 +109,94 @@ sampleSubmission.to_csv(path + 'sampleSubmission_0106.csv')
 
 # CPU 걸린시간 : 
 # GPU 걸린시간 :
+
+'''
+train_size=0.7,
+model.add(Dense(15, input_dim=8, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(12,activation='relu'))
+model.add(Dense(11,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(1, activation='relu'))
+# model.fit(x_train, y_train, epochs=500, batch_size=32)
+RMSE :  148.26304904232694
+
+model.add(Dense(15, input_dim=8, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(12,activation='relu'))
+model.add(Dense(11,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=500, batch_size=32)
+RMSE :  148.0301103692992
+
+
+train_size=0.9,
+model = Sequential()
+model.add(Dense(15, input_dim=8, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(12,activation='relu'))
+model.add(Dense(11,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=500, batch_size=32)
+RMSE :  143.20674949893714
+
+train_size=0.9,
+model = Sequential()
+model.add(Dense(15, input_dim=8, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(12,activation='relu'))
+model.add(Dense(11,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=1000, batch_size=32)
+RMSE :  145.98392172112835
+
+train_size=0.9,
+model = Sequential()
+model.add(Dense(15, input_dim=8, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(12,activation='relu'))
+model.add(Dense(11,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=700, batch_size=32)
+RMSE :  142.35451040109984
+
+
+train_size=0.9,
+model = Sequential()
+model.add(Dense(15, input_dim=8, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(12,activation='relu'))
+model.add(Dense(11,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=3000, batch_size=32)
+RMSE :  142.65767898951694
+'''
