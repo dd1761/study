@@ -4,7 +4,6 @@ from sklearn.datasets import fetch_california_housing
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 import numpy as np
-import time
 from sklearn.model_selection import train_test_split
 
 #1. 데이터
@@ -45,9 +44,7 @@ model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-start = time.time()
-model.fit(x_train, y_train, epochs=5000, batch_size=10) 
-end = time.time()
+model.fit(x_train, y_train, epochs=500, batch_size=10) 
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)
