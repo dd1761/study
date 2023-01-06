@@ -13,14 +13,21 @@ y = np.array(range(1, 17))
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    test_size=0.35,
+    test_size=0.2,
+    random_state=1234,
     shuffle=False
 )
-x_test, x_val, y_test, y_val = train_test_split(
-    x_test, y_test,
-    test_size=0.4,
-    shuffle=False
-)
+# print(x_train.shape, x_test.shape)  #(12,)  (4,)
+# print(y_train.shape, y_test.shape)  #(12,)  (4,)
+
+# x_test, x_val, y_test, y_val = train_test_split(
+#     x_test, y_test,
+#     test_size=0.5,
+#     shuffle=False
+# )
+
+
+
 # x_train = np.array(range(1,11)) #   (1~10)
 # y_train = np.array(range(1,11)) #   (1~10)
 # x_test = np.array([11,12,13])   #   (11~13)
@@ -35,16 +42,16 @@ x_test, x_val, y_test, y_val = train_test_split(
 # x_validation = x[13:]
 # y_validation = y[13:]
 
-print(x_train)
-print(y_train)
-print(x_test)
-print(y_test)
-print(x_val)
-print(y_val)
+# print(x_train)
+# print(y_train)
+# print(x_test)
+# print(y_test)
+# print(x_val)
+# print(y_val)
 
 
 
-'''
+
 #2. 모델 
 model = Sequential()
 model.add(Dense(10, input_dim=1))
@@ -56,8 +63,8 @@ model.add(Dense(1, activation='linear'))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs=5000, batch_size=1,
-          validation_data=(x_validation, y_validation))     #   x에 대한 예상문제를 평가하는 과정을 추가 (validation_data)
+model.fit(x_train, y_train, epochs=10000, batch_size=1,
+          validation_split=0.25)     #   x에 대한 예상문제를 평가하는 과정을 추가 (validation_data) 전체데이터의 25퍼센트를 예상평가하기로
 
 #4. 평가 예측
 loss = model.evaluate(x_test, y_test)
@@ -65,4 +72,5 @@ print('loss : ', loss)
 
 result = model.predict([17])
 print("17의 예측값 : ", result)
-'''
+
+#loss값과 val_loss값중 기준치는 val_loss로 잡아야 한다.
