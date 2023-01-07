@@ -42,7 +42,7 @@ y = train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.9,
+    train_size=0.7,
     shuffle=True,
     random_state=1234
 )
@@ -126,4 +126,20 @@ model.add(Dense(10,activation='relu'))
 model.add(Dense(1, activation='linear'))
 model.fit(x_train, y_train, epochs=100, batch_size=100, validation_split=0.25)
 RMSE :  147.96180732901507
+
+
+train_size=0.8,
+model.add(Dense(20, input_dim=8, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(20,activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(12,activation='relu'))
+model.add(Dense(11,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=100, batch_size=100, validation_split=0.25)
+RMSE :  151.85094254958963
+걸린시간 :  11.629494428634644
 '''
