@@ -80,6 +80,6 @@ model.add(Dense(18, activation='relu'))
 model.add(Dense(17, activation='relu'))
 model.add(Dense(1, activation='linear'))
 model.fit(x_train, y_train, epochs=10000, batch_size=10,validation_split=0.25) 
-RMSE :  4.42272623090734
-R2 :  0.757998649865119
+RMSE :  4.4227262309073
+R2 :  0.75799864986511
 '''
