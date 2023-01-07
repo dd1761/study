@@ -39,7 +39,7 @@ y = train_csv['count']
 # print(y)
 # print(y.shape)      # (1459,)
 
-
+#11
 
 
 x_train, x_test, y_train, y_test = train_test_split(
