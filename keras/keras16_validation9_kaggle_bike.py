@@ -172,4 +172,20 @@ model.add(Dense(1, activation='linear'))
 model.fit(x_train, y_train, epochs=150, batch_size=100, validation_split=0.25)
 RMSE :  151.38303754412826
 RMSE :  148.998417139098
+
+
+
+train_size=0.9,
+model.add(Dense(20, input_dim=8, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(20,activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(16,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(1, activation='linear'))
+model.fit(x_train, y_train, epochs=150, batch_size=10, validation_split=0.25)
+RMSE :  146.4398673897204
 '''
