@@ -63,7 +63,7 @@ model.add(Dense(1, activation='linear'))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-model.fit(x_train, y_train, epochs=10000, batch_size=1,
+model.fit(x_train, y_train, epochs=100, batch_size=1,
           validation_split=0.25)     #   x에 대한 예상문제를 평가하는 과정을 추가 (validation_data) 전체데이터의 25퍼센트를 예상평가하기로
 
 #4. 평가 예측
