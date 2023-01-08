@@ -56,10 +56,10 @@ model.add(Dense(20, input_dim=8, activation='relu'))
 model.add(Dense(40, activation='relu'))
 model.add(Dense(20,activation='relu'))
 model.add(Dense(15,activation='relu'))
+model.add(Dense(16,activation='relu'))
 model.add(Dense(14,activation='relu'))
+model.add(Dense(15,activation='relu'))
 model.add(Dense(13,activation='relu'))
-model.add(Dense(12,activation='relu'))
-model.add(Dense(11,activation='relu'))
 model.add(Dense(10,activation='relu'))
 model.add(Dense(1, activation='linear'))
 
@@ -69,7 +69,7 @@ model.add(Dense(1, activation='linear'))
 import time
 model.compile(loss='mse', optimizer='adam')
 start = time.time()
-model.fit(x_train, y_train, epochs=150, batch_size=100, validation_split=0.25)
+model.fit(x_train, y_train, epochs=150, batch_size=10, validation_split=0.25)
 end = time.time()
 
 #4. 평가, 예측
