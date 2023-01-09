@@ -67,7 +67,7 @@ model.add(Dense(1, activation='linear'))
 import time
 model.compile(loss='mse', optimizer='adam')
 start = time.time()
-model.fit(x_train, y_train, epochs=10000, batch_size=32,validation_split=0.25)
+model.fit(x_train, y_train, epochs=30000, batch_size=32,validation_split=0.25)
 end = time.time()
 
 #4. 평가, 예측
@@ -126,4 +126,8 @@ RMSE :  54.89042746781144
 train_size=0.9,
 model.fit(x_train, y_train, epochs=500, batch_size=1,validation_split=0.25)
 RMSE :  53.59895542445503
+
+train_size=0.9,
+model.fit(x_train, y_train, epochs=6000, batch_size=1,validation_split=0.25)
+RMSE :  48.2372733413749
 '''
