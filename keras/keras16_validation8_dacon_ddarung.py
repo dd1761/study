@@ -44,7 +44,7 @@ y = train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.7,
+    train_size=0.9,
     shuffle=True,
     random_state=1234
 )
@@ -54,24 +54,10 @@ print(y_train.shape, y_test.shape)  # (929,) (399,)
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(18, input_dim=9))
-model.add(Dense(36, activation='relu'))
+model.add(Dense(9, input_dim=9))
 model.add(Dense(18, activation='relu'))
-model.add(Dense(17, activation='relu'))
-model.add(Dense(34, activation='relu'))
-model.add(Dense(17, activation='relu'))
-model.add(Dense(15, activation='relu'))
-model.add(Dense(30, activation='relu'))
-model.add(Dense(15, activation='relu'))
-model.add(Dense(12, activation='relu'))
-model.add(Dense(24, activation='relu'))
-model.add(Dense(12, activation='relu'))
-model.add(Dense(10, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(10, activation='relu'))
-model.add(Dense(5, activation='relu'))
-model.add(Dense(10, activation='relu'))
-model.add(Dense(5, activation='relu'))
+model.add(Dense(9, activation='relu'))
+model.add(Dense(8, activation='relu'))
 model.add(Dense(2, activation='relu'))
 model.add(Dense(1, activation='linear'))
 
@@ -81,7 +67,7 @@ model.add(Dense(1, activation='linear'))
 import time
 model.compile(loss='mse', optimizer='adam')
 start = time.time()
-model.fit(x_train, y_train, epochs=10000, batch_size=1,validation_split=0.25)
+model.fit(x_train, y_train, epochs=10000, batch_size=32,validation_split=0.25)
 end = time.time()
 
 #4. 평가, 예측
@@ -126,4 +112,18 @@ submission.to_csv(path + 'submission_01050251.csv')
 '''
 
 RMSE :  85.25672302220333
+
+
+train_size=0.9,
+model.fit(x_train, y_train, epochs=200, batch_size=1,validation_split=0.25)
+RMSE :  58.978108924123504
+
+train_size=0.9,
+model.fit(x_train, y_train, epochs=300, batch_size=1,validation_split=0.25)
+RMSE :  54.89042746781144
+
+
+train_size=0.9,
+model.fit(x_train, y_train, epochs=500, batch_size=1,validation_split=0.25)
+RMSE :  53.59895542445503
 '''
