@@ -48,7 +48,7 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               restore_best_weights=True,
                               verbose=1)
 
-hist = model.fit(x_train, y_train, epochs=300, batch_size=20, validation_split=0.25) 
+hist = model.fit(x_train, y_train, epochs=300, batch_size=20, validation_split=0.25, callbacks=[earlyStopping] , verbose=1) 
 
 #4. 평가, 예측
 loss = model.evaluate(x_test, y_test)

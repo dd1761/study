@@ -55,6 +55,12 @@ model = Sequential()
 model.add(Dense(20, input_dim=8, activation='relu'))
 model.add(Dense(40, activation='relu'))
 model.add(Dense(20,activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(16,activation='relu'))
+model.add(Dense(14,activation='relu'))
+model.add(Dense(15,activation='relu'))
+model.add(Dense(13,activation='relu'))
+model.add(Dense(10,activation='relu'))
 model.add(Dense(1, activation='linear'))
 
 

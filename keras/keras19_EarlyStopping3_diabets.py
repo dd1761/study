@@ -35,7 +35,7 @@ earlyStopping = EarlyStopping(monitor='val_loss',
                               mode='min',
                               restore_best_weights=True,
                               verbose=1)
-hist = model.fit(x_train, y_train, epochs=10000 , batch_size=10, validation_split=0.3) 
+hist = model.fit(x_train, y_train, epochs=10000 , batch_size=10, validation_split=0.3, callbacks=[earlyStopping] , verbose=1) 
 
 loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)

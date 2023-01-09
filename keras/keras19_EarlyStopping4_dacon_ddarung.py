@@ -58,6 +58,11 @@ model.add(Dense(9, input_dim=9))
 model.add(Dense(18, activation='relu'))
 model.add(Dense(9, activation='relu'))
 model.add(Dense(8, activation='relu'))
+model.add(Dense(7, activation='relu'))
+model.add(Dense(6, activation='relu'))
+model.add(Dense(5, activation='relu'))
+model.add(Dense(4, activation='relu'))
+model.add(Dense(3, activation='relu'))
 model.add(Dense(2, activation='relu'))
 model.add(Dense(1, activation='linear'))
 
@@ -73,7 +78,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
                               patience=10,
                               restore_best_weights=True,
                               verbose=1)
-hist = model.fit(x_train, y_train, epochs=30000, batch_size=32,validation_split=0.25)
+hist = model.fit(x_train, y_train, epochs=30000, batch_size=32,validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
 end = time.time()
 
 #4. 평가, 예측
