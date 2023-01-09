@@ -158,4 +158,5 @@ model.add(Dense(1, activation='linear'))
 model.fit(x_train, y_train, epochs=1000 , batch_size=10, validation_split=0.3) 
 RMSE :  44.62543917832112
 R2 :  0.701384976583907
+
 '''

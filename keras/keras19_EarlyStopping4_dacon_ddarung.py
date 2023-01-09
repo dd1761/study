@@ -54,8 +54,9 @@ print(y_train.shape, y_test.shape)  # (929,) (399,)
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(9, input_dim=9))
-model.add(Dense(18, activation='relu'))
+model.add(Dense(10, input_dim=9))
+model.add(Dense(20, activation='relu'))
+model.add(Dense(10, activation='relu'))
 model.add(Dense(9, activation='relu'))
 model.add(Dense(8, activation='relu'))
 model.add(Dense(7, activation='relu'))
@@ -78,7 +79,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
                               patience=10,
                               restore_best_weights=True,
                               verbose=1)
-hist = model.fit(x_train, y_train, epochs=30000, batch_size=32,validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
+hist = model.fit(x_train, y_train, epochs=30000, batch_size=1,validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
 end = time.time()
 
 #4. 평가, 예측
