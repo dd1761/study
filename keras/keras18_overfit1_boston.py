@@ -2,6 +2,7 @@ from sklearn.datasets import load_boston
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
+import matplotlib
 #2023-01-09
 
 #1. 데이터
@@ -39,7 +40,7 @@ model.add(Dense(1, activation='linear'))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-hist = model.fit(x_train, y_train, epochs=300, batch_size=10, validation_split=0.2, verbose=1)  # verbos 값 0이면 결과만 표시 1이면 원래대로 표시 2면 프로그램 진행바 제거 3이상이면 epoch값만 표현
+hist = model.fit(x_train, y_train, epochs=5, batch_size=10, validation_split=0.2, verbose=1)  # verbos 값 0이면 결과만 표시 1이면 원래대로 표시 2면 프로그램 진행바 제거 3이상이면 epoch값만 표현
 
 
 #4. 평가, 예측
@@ -56,6 +57,12 @@ print('=======================================================')
 print(hist.history['val_loss'])
 
 import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
+font_path = "C:/Windows/Fonts/malgun.ttf"
+font = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font)
+
+
 
 plt.figure(figsize=(9,6))
 plt.plot(hist.history['loss'], color='red', marker='.', label='loss')   # 선의 색은 color='red'빨간색 maker='.'은 선의 형태는 점선으로 label='loss'는 선의 이름은 loss
@@ -63,7 +70,7 @@ plt.plot(hist.history['val_loss'], color='blue', marker='.', label='val_loss')
 plt.grid()
 plt.xlabel('epochs')    #plt의 x축의 이름
 plt.ylabel('loss')      #plt의 y축의 이름
-plt.title('boston loss')
+plt.title('보스톤 손실함수')
 # plt.legend()
 plt.legend(loc='upper right')    #upper, lower, center
 plt.show()

@@ -2,6 +2,7 @@ from sklearn.datasets import load_breast_cancer
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
+import numpy as np
 # 23-01-09
 
 #1. 데이터
@@ -38,7 +39,10 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
 
 
 from tensorflow.keras.callbacks import EarlyStopping    #대문자면 파이썬의 클래스로 구현되어있다.
-earlyStopping = EarlyStopping(monitor='val_loss', mode='min',  
+
+# earlyStopping = EarlyStopping(monitor='val_loss',   # monitor='val_loss'를 쓰는 이유는 val_loss를 사용하는 것이 가장 좋다. loss를 사용해도 괜찮다.
+earlyStopping = EarlyStopping(monitor='accuracy',   # monitor='val_loss'를 쓰는 이유는 val_loss를 사용하는 것이 가장 좋다. loss를 사용해도 괜찮다.
+                              mode='auto',          # min, max, auto   loss와 val_loss는 min, accuracy값은 max 모르겠으면 auto
                               patience=10, 
                               restore_best_weights=True, 
                               verbose=1)   #loss값과 val_loss값은 최소값이 가장 좋지만 accuracy 값은 최대값이 좋다.
@@ -59,11 +63,15 @@ print('accuracy : ', accuracy)
 
 
 y_predict = model.predict(x_test)
-print(y_predict[:10])           # -> 정수형으로 바꾸어야 한다.
-print(y_test[:10])
 
+# print(y_predict[:10])           # -> 정수형으로 바꾸어야 한다.
+# print(y_test[:10])
+
+y_predict =y_predict.flatten()
+y_predict = np.where(y_predict > 0.5, 1 , 0)
+print('y_predict : \n', y_predict)
 
 
 from sklearn.metrics import r2_score, accuracy_score
-# acc = accuracy_score(y_test, y_predict)
-# print("accuracy_score : ", acc)
+acc = accuracy_score(y_test, y_predict)
+print("accuracy_score : ", acc)
