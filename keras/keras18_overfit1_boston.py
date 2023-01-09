@@ -23,14 +23,14 @@ x_train, x_test, y_train, y_test = train_test_split(
 model = Sequential()
 #model.add(Dense(5, input_dim=13))
 model.add(Dense(5, input_shape=(13,)))     #input_shape=() 는 다차원에서 사용.
-model.add(Dense(4000))
-model.add(Dense(3000))
-model.add(Dense(2000))
+model.add(Dense(4))
+model.add(Dense(3))
+model.add(Dense(2))
 model.add(Dense(1))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-hist = model.fit(x_train, y_train, epochs=300, batch_size=1, validation_split=0.2, verbose=1)  # verbos 값 0이면 결과만 표시 1이면 원래대로 표시 2면 프로그램 진행바 제거 3이상이면 epoch값만 표현
+hist = model.fit(x_train, y_train, epochs=300, batch_size=10, validation_split=0.2, verbose=1)  # verbos 값 0이면 결과만 표시 1이면 원래대로 표시 2면 프로그램 진행바 제거 3이상이면 epoch값만 표현
 
 
 #4. 평가, 예측
