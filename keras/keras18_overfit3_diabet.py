@@ -29,7 +29,7 @@ model.add(Dense(1, activation='linear'))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-hist = model.fit(x_train, y_train, epochs=100 , batch_size=10, validation_split=0.3) 
+hist = model.fit(x_train, y_train, epochs=1000 , batch_size=10, validation_split=0.3) 
 
 loss = model.evaluate(x_test, y_test)
 print('loss : ', loss)

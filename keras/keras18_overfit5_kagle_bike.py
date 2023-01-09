@@ -63,7 +63,7 @@ model.add(Dense(1, activation='linear'))
 import time
 model.compile(loss='mse', optimizer='adam')
 start = time.time()
-hist = model.fit(x_train, y_train, epochs=150, batch_size=15, validation_split=0.25)
+hist = model.fit(x_train, y_train, epochs=1500, batch_size=15, validation_split=0.25)
 end = time.time()
 
 #4. 평가, 예측
