@@ -22,17 +22,29 @@ x_train, x_test, y_train, y_test = train_test_split(
 #2. 모델구성
 model = Sequential()
 #model.add(Dense(5, input_dim=13))
-model.add(Dense(5, input_shape=(13,)))     #input_shape=() 는 다차원에서 사용.
-model.add(Dense(4))
-model.add(Dense(3))
-model.add(Dense(2))
-model.add(Dense(1))
+model = Sequential()
+model.add(Dense(26, input_dim=13, activation='relu'))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(26, activation='relu'))
+model.add(Dense(25, activation='relu'))
+model.add(Dense(24, activation='relu'))
+model.add(Dense(23, activation='relu'))
+model.add(Dense(22, activation='relu'))
+model.add(Dense(21, activation='relu'))
+model.add(Dense(20, activation='relu'))
+model.add(Dense(19, activation='relu'))
+model.add(Dense(18, activation='relu'))
+model.add(Dense(17, activation='relu'))
+model.add(Dense(1, activation='linear'))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
 
 from tensorflow.keras.callbacks import EarlyStopping    #대문자면 파이썬의 클래스로 구현되어있다.
-earlyStopping = EarlyStopping(monitor='val_loss', mode='min',  patience=10, restore_best_weights=True, verbose=1)   #loss값과 val_loss값은 최소값이 가장 좋지만 accuracy 값은 최대값이 좋다.
+earlyStopping = EarlyStopping(monitor='val_loss', mode='min',  
+                              patience=10, 
+                              restore_best_weights=True, 
+                              verbose=1)   #loss값과 val_loss값은 최소값이 가장 좋지만 accuracy 값은 최대값이 좋다.
 hist = model.fit(x_train, y_train, epochs=3000, batch_size=10, validation_split=0.2,callbacks=[earlyStopping] , verbose=1)  # verbos 값 0이면 결과만 표시 1이면 원래대로 표시 2면 프로그램 진행바 제거 3이상이면 epoch값만 표현
 
 

@@ -22,11 +22,20 @@ x_train, x_test, y_train, y_test = train_test_split(
 #2. 모델구성
 model = Sequential()
 #model.add(Dense(5, input_dim=13))
-model.add(Dense(5, input_shape=(13,)))     #input_shape=() 는 다차원에서 사용.
-model.add(Dense(4))
-model.add(Dense(3))
-model.add(Dense(2))
-model.add(Dense(1))
+model = Sequential()
+model.add(Dense(26, input_dim=13, activation='relu'))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(26, activation='relu'))
+model.add(Dense(25, activation='relu'))
+model.add(Dense(24, activation='relu'))
+model.add(Dense(23, activation='relu'))
+model.add(Dense(22, activation='relu'))
+model.add(Dense(21, activation='relu'))
+model.add(Dense(20, activation='relu'))
+model.add(Dense(19, activation='relu'))
+model.add(Dense(18, activation='relu'))
+model.add(Dense(17, activation='relu'))
+model.add(Dense(1, activation='linear'))
 
 #3.컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
