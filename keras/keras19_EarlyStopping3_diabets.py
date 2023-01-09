@@ -22,9 +22,17 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 model = Sequential()
-model.add(Dense(20, input_dim=10, activation='relu'))
-model.add(Dense(40, activation='relu'))
+model.add(Dense(10, input_dim=10, activation='relu'))
 model.add(Dense(20, activation='relu'))
+model.add(Dense(10, activation='relu'))
+model.add(Dense(9, activation='relu'))
+model.add(Dense(8, activation='relu'))
+model.add(Dense(7, activation='relu'))
+model.add(Dense(6, activation='relu'))
+model.add(Dense(5, activation='relu'))
+model.add(Dense(4, activation='relu'))
+model.add(Dense(3, activation='relu'))
+model.add(Dense(2, activation='relu'))
 model.add(Dense(1, activation='linear'))
 
 #3. 컴파일, 훈련
@@ -34,6 +42,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 earlyStopping = EarlyStopping(monitor='val_loss',
                               mode='min',
                               restore_best_weights=True,
+                              patience=10,
                               verbose=1)
 hist = model.fit(x_train, y_train, epochs=10000 , batch_size=10, validation_split=0.3, callbacks=[earlyStopping] , verbose=1) 
 

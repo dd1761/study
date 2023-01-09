@@ -52,19 +52,17 @@ print(y_train.shape, y_test.shape)
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(20, input_dim=8, activation='relu'))
-model.add(Dense(40, activation='relu'))
-model.add(Dense(20,activation='relu'))
-model.add(Dense(19,activation='relu'))
-model.add(Dense(18,activation='relu'))
-model.add(Dense(17,activation='relu'))
-model.add(Dense(16,activation='relu'))
-model.add(Dense(15,activation='relu'))
-model.add(Dense(14,activation='relu'))
-model.add(Dense(13,activation='relu'))
-model.add(Dense(12,activation='relu'))
-model.add(Dense(11,activation='relu'))
+model.add(Dense(10, input_dim=8, activation='relu'))
+model.add(Dense(20, activation='relu'))
 model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(8,activation='relu'))
+model.add(Dense(7,activation='relu'))
+model.add(Dense(6,activation='relu'))
+model.add(Dense(5,activation='relu'))
+model.add(Dense(4,activation='relu'))
+model.add(Dense(3,activation='relu'))
+model.add(Dense(2,activation='relu'))
 model.add(Dense(1, activation='linear'))
 
 
@@ -79,7 +77,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
                               patience=10,
                               restore_best_weights=True,
                               verbose=1)
-hist = model.fit(x_train, y_train, epochs=1500, batch_size=15, validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
+hist = model.fit(x_train, y_train, epochs=15000, batch_size=15, validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
 end = time.time()
 
 #4. 평가, 예측
