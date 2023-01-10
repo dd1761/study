@@ -60,9 +60,10 @@ earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
                               verbose=1)                                       
 
 model.fit(x_train, y_train, 
-          epochs=500, 
+          epochs=5000, 
           batch_size=200,
           validation_split=0.2,
+          callbacks=[earlyStopping] ,
           verbose=1)
 
 #4. 평가, 예측
