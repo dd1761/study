@@ -5,6 +5,8 @@ from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from tensorflow.keras.utils import to_categorical
+from sklearn.metrics import accuracy_score
+import numpy as np
 
 #1. 데이터
 datasets = fetch_covtype()
@@ -20,7 +22,7 @@ y = pd.get_dummies(y)
 # print('y : ', type(y))
 # 힌트 .values  or  .numpy()    pandas
 # one-hot encoding 힌트. toarray()
-y = y.values
+y = y.values    # y에 pd.get_dummies(y)로 돌린 값을 y.values를 통해 다시 y의 값만 출력함.
 
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -71,6 +73,6 @@ y_predict = np.argmax(y_predict, axis=1)    #y_predict의 값을 argmax를 통�
 print('y_pred : ', y_predict)
 y_test = np.argmax(y_test, axis=1)          #y_test의 값을 one-hot encoding되어있는 상태에서 argmax를 통하여 원래의 데이터 형태로 되돌린다.
 print('y_test : ', y_test)
-# acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
-# print(acc)
+acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
+print(acc)
 
