@@ -31,7 +31,7 @@ model.add(Dense(40, activation='relu'))
 model.add(Dense(30, activation='relu'))
 model.add(Dense(20, activation='relu'))
 model.add(Dense(10, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))   # 0과 1의 값만 뽑아야 하기 때문에 activation을 sigmoid를 사용한다.
+model.add(Dense(1, activation='sigmoid'))   # 0과 1사이의 값만 뽑아야 하기 때문에 activation을 sigmoid를 사용한다.
 
 #3. 컴파일, 훈련
 model.compile(loss='binary_crossentropy', optimizer='adam',
@@ -67,7 +67,7 @@ y_predict = model.predict(x_test)
 # print(y_predict[:10])           # -> 정수형으로 바꾸어야 한다.
 # print(y_test[:10])
 
-y_predict =y_predict.flatten()
+# y_predict =y_predict.flatten()
 y_predict = np.where(y_predict > 0.5, 1 , 0)
 print('y_predict : \n', y_predict)
 

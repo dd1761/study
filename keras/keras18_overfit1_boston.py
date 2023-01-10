@@ -3,6 +3,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 import matplotlib
+import matplotlib.font_manager as fm
 #2023-01-09
 
 #1. 데이터
@@ -58,9 +59,11 @@ print(hist.history['val_loss'])
 
 import matplotlib.pyplot as plt
 from matplotlib import font_manager, rc
-font_path = "C:/Windows/Fonts/malgun.ttf"
-font = font_manager.FontProperties(fname=font_path).get_name()
-rc('font', family=font)
+path = "C:/NanumFontSetup_TTF_GOTHIC/NanumGothic.ttf"
+# font_path = "C:/Windows/Fonts/malgun.ttf"
+fontprop = fm.FontProperties(fname = path, size = 18)
+# font = font_manager.FontProperties(fname=font_path).get_name()
+# rc('font', family=font)
 
 
 
@@ -70,7 +73,7 @@ plt.plot(hist.history['val_loss'], color='blue', marker='.', label='val_loss')
 plt.grid()
 plt.xlabel('epochs')    #plt의 x축의 이름
 plt.ylabel('loss')      #plt의 y축의 이름
-plt.title('보스톤 손실함수')
+plt.title('보스톤 손실함수', fontproperties=fontprop)
 # plt.legend()
 plt.legend(loc='upper right')    #upper, lower, center
 plt.show()

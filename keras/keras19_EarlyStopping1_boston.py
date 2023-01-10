@@ -42,10 +42,15 @@ model.compile(loss='mse', optimizer='adam')
 
 from tensorflow.keras.callbacks import EarlyStopping    #대문자면 파이썬의 클래스로 구현되어있다.
 earlyStopping = EarlyStopping(monitor='val_loss', mode='min',  
-                              patience=10, 
-                              restore_best_weights=True, 
+                              patience=10,                  # earlystopping을 적용하여 최솟값에서 patience값만큼 더 돌다가 최적의값이 갱신이 안되면 멈추게 하는 횟수
+                              restore_best_weights=True,    #earlystopping의 값은 최적의 값에서 추가로 몇번 더 돌다가 멈추는데 그 최적의 값을 가지고 오는 메소드
                               verbose=1)   #loss값과 val_loss값은 최소값이 가장 좋지만 accuracy 값은 최대값이 좋다.
-hist = model.fit(x_train, y_train, epochs=3000, batch_size=10, validation_split=0.2,callbacks=[earlyStopping] , verbose=1)  # verbos 값 0이면 결과만 표시 1이면 원래대로 표시 2면 프로그램 진행바 제거 3이상이면 epoch값만 표현
+hist = model.fit(x_train, y_train, 
+                 epochs=3000, 
+                 batch_size=10, 
+                 validation_split=0.2,
+                 callbacks=[earlyStopping] , 
+                 verbose=1)  # verbos 값 0이면 결과만 표시 1이면 원래대로 표시 2면 프로그램 진행바 제거 3이상이면 epoch값만 표현
 
 
 
