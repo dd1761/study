@@ -22,7 +22,7 @@ y = pd.get_dummies(y)
 # print('y : ', type(y))
 # 힌트 .values  or  .numpy()    pandas
 # one-hot encoding 힌트. toarray()
-y = y.values    # y에 pd.get_dummies(y)로 돌린 값을 y.values를 통해 다시 y의 값만 출력함. 1
+y = y.values    # y에 pd.get_dummies(y)로 돌린 값을 y.values를 통해 다시 y의 값만 출력함. 
 
 
 x_train, x_test, y_train, y_test = train_test_split(
