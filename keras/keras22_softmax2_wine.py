@@ -1,11 +1,13 @@
-from sklearn.datasets import load_iris  # 꽃잎의 길이와 넓이, 줄기의 길이를 가지고 어떤 꽃인지를 맞추는 알고리즘
+from sklearn.datasets import load_wine  # 꽃잎의 길이와 넓이, 줄기의 길이를 가지고 어떤 꽃인지를 맞추는 알고리즘
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical   # one hot encoding을 사용하기 위해 to_categorical을 가지고 와 사용한다.
+from sklearn.metrics import accuracy_score
+import numpy as np
 
 #1. 데이터
-datasets = load_iris()
+datasets = load_wine()
 # print(datasets.DESCR)   #input=4 output=1       #pandas .describe() /   .info()
 # print(datasets.feature_names)                   #pandas .columns
 
@@ -39,7 +41,7 @@ print('y_test : ',y_test)
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(50, activation='relu', input_shape=(4,)))
+model.add(Dense(50, activation='relu', input_shape=(13,)))
 model.add(Dense(40, activation='sigmoid'))      #   회귀형식의 모델구성
 model.add(Dense(30, activation='relu'))
 model.add(Dense(20, activation='linear'))
@@ -56,7 +58,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',
               metrics=['accuracy'])                                                
 
 model.fit(x_train, y_train, 
-          epochs=100, 
+          epochs=10, 
           batch_size=1,
           validation_split=0.2,
           verbose=1)
@@ -70,8 +72,7 @@ print('accuracy : ', accuracy)
 # y_predict = model.predict(x_test[:5])   # 예측한 y값
 # print(y_predict)        #one hot encoding된 값이 나오게 된다. 
 
-from sklearn.metrics import accuracy_score
-import numpy as np
+
 y_predict = model.predict(x_test)       #원핫인코딩된 형태가 아니라 소수점자리의 데이터값으로 들어가있다.
 y_predict = np.argmax(y_predict, axis=1)    #y_predict의 값을 argmax를 통하여 one-hot encoding되어있는 데이터의 값을 원래 상태로 되돌린다.
 print('y_pred : ', y_predict)
