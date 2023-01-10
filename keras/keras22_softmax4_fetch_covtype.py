@@ -50,10 +50,17 @@ model.add(Dense(7, activation='softmax'))
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam',
-              metrics=['accuracy'])                                                
+              metrics=['accuracy'])         
+
+
+from tensorflow.keras.callbacks import EarlyStopping    #대문자면 파이썬의 클래스로 구현되어있다.
+earlyStopping = EarlyStopping(monitor='val_loss', mode='min',  
+                              patience=10,                  # earlystopping을 적용하여 최솟값에서 patience값만큼 더 돌다가 최적의값이 갱신이 안되면 멈추게 하는 횟수
+                              restore_best_weights=True,    #earlystopping의 값은 최적의 값에서 추가로 몇번 더 돌다가 멈추는데 그 최적의 값을 가지고 오는 메소드
+                              verbose=1)                                       
 
 model.fit(x_train, y_train, 
-          epochs=15, 
+          epochs=500, 
           batch_size=200,
           validation_split=0.2,
           verbose=1)
@@ -76,3 +83,16 @@ print('y_test : ', y_test)
 # acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
 # print(acc)
 
+'''
+
+epochs=10, 
+batch_size=100,
+loss :  0.44826364517211914
+accuracy :  0.8096951246261597
+
+
+epochs=15, 
+batch_size=200,
+loss :  0.44152364134788513
+accuracy :  0.8145142793655396
+'''
