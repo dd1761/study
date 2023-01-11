@@ -4,7 +4,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 
 
@@ -47,7 +47,7 @@ y = train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.7,
+    train_size=0.9,
     shuffle=True,
     random_state=1234
 )
@@ -56,41 +56,34 @@ print(x_train.shape, x_test.shape)  # (929, 9) (399, 9)
 print(y_train.shape, y_test.shape)  # (929,) (399,)
 
 scaler = MinMaxScaler()
+# scaler =StandardScaler()
+# scaler.fit(x_train)                        # scaler에 대한 x값을 가중치에 저장
+# x_train = scaler.transform(x_train)
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.fit_transform(x_test)
 test_csv = scaler.fit_transform(test_csv)
-
+         
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(15, input_dim=9))
-model.add(Dense(16))
-model.add(Dense(17))
-model.add(Dense(18))
-model.add(Dense(19))
-model.add(Dense(20))
-model.add(Dense(19))
-model.add(Dense(18))
-model.add(Dense(17))
-model.add(Dense(16))
-model.add(Dense(15))
-model.add(Dense(14))
-model.add(Dense(13))
-model.add(Dense(12))
-model.add(Dense(11))
-model.add(Dense(10))
-model.add(Dense(11))
-model.add(Dense(13))
-model.add(Dense(12))
-model.add(Dense(1))
+model.add(Dense(64, activation='relu', input_dim=9))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.add(Dense(1, activation='linear'))
 
 
 
 #3. 컴파일, 훈련
 import time
 model.compile(loss='mse', optimizer='adam')
+from tensorflow.keras.callbacks import EarlyStopping
+earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
+                              patience=10,
+                              restore_best_weights=True,
+                              verbose=1)
 start = time.time()
-model.fit(x_train, y_train, epochs=100, batch_size=1)
+hist = model.fit(x_train, y_train, epochs=30000, batch_size=1,validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
 end = time.time()
 
 #4. 평가, 예측
@@ -133,55 +126,6 @@ submission.to_csv(path + 'submission_01050251.csv')
 
 
 '''
-model.fit(x_train, y_train, epochs=1000, batch_size=10) 0.7
-RMSE :  60.91427742103723
-model.add(Dense(200, input_dim=9))
-model.add(Dense(190))
-model.add(Dense(180))
-model.add(Dense(170))
-model.add(Dense(160))
-model.add(Dense(150))
-model.add(Dense(140))
-model.add(Dense(130))
-model.add(Dense(120))
-model.add(Dense(110))
-model.add(Dense(100))
-model.add(Dense(90))
-model.add(Dense(80))
-model.add(Dense(70))
-model.add(Dense(60))
-model.add(Dense(50))
-model.add(Dense(40))
-model.add(Dense(30))
-model.add(Dense(20))
-model.add(Dense(10))
-model.add(Dense(1))
-
-
-train_size=0.9,
-model.fit(x_train, y_train, epochs=500, batch_size=10) 
-RMSE :  58.61161036253064
-model.add(Dense(200, input_dim=9))
-model.add(Dense(190))
-model.add(Dense(180))
-model.add(Dense(170))
-model.add(Dense(160))
-model.add(Dense(150))
-model.add(Dense(140))
-model.add(Dense(130))
-model.add(Dense(120))
-model.add(Dense(110))
-model.add(Dense(100))
-model.add(Dense(90))
-model.add(Dense(80))
-model.add(Dense(70))
-model.add(Dense(60))
-model.add(Dense(50))
-model.add(Dense(40))
-model.add(Dense(30))
-model.add(Dense(20))
-model.add(Dense(10))
-model.add(Dense(1))
 
 
 model.fit(x_train, y_train, epochs=200, batch_size=30)
@@ -219,4 +163,42 @@ model.add(Dense(14))
 model.add(Dense(13))
 model.add(Dense(1))
 
+
+train_size=0.7,
+batch_size=1
+scaler =StandardScaler()
+model = Sequential()
+model.add(Dense(64, input_dim=9))
+model.add(Dense(52))
+model.add(Dense(40))
+model.add(Dense(28))
+model.add(Dense(14))
+model.add(Dense(2))
+model.add(Dense(1))
+RMSE :  53.428193503908375
+걸린시간 :  15.852965116500854
+
+
+train_size=0.7,
+scaler = MinMax()
+model.add(Dense(64, activation='relu', input_dim=9))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(28, activation='relu'))
+model.add(Dense(14, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.add(Dense(1, activation='linear'))
+RMSE :  52.17764920412936
+
+
+train_size=0.7,
+scaler = MinMax()
+model.add(Dense(64, activation='relu', input_dim=9))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(28, activation='relu'))
+model.add(Dense(14, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.add(Dense(1, activation='linear'))
+RMSE :  48.15700299114179
 '''

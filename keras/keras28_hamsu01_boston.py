@@ -60,8 +60,10 @@ dense2 = Dense(52, activation='sigmoid')(dense1)
 dense3 = Dense(40, activation='relu')(dense2)
 dense4 = Dense(28, activation='relu')(dense3)
 dense5 = Dense(16, activation='relu')(dense4)
-dense6 = Dense(8, activation='relu')(dense5)
-output1 = Dense(1, activation='linear')(dense6)
+dense6 = Dense(12, activation='relu')(dense5)
+dense7 = Dense(8, activation='relu')(dense6)
+dense8 = Dense(4, activation='linear')(dense7)
+output1 = Dense(1, activation='linear')(dense8)
 model = Model(inputs=input1, outputs=output1)
 model.summary()
 
@@ -73,7 +75,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
                               verbose=1)
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=10000, batch_size=1,
+model.fit(x_train, y_train, epochs=10000, batch_size=20,
           callbacks=[earlyStopping],
           verbose=1,
           validation_split=0.2) 
@@ -119,6 +121,23 @@ R2 :  -5.258847265152362
 
 
 scaler =StandardScaler()
+model.fit(x_train, y_train, epochs=10000, batch_size=1,
 RMSE :  3.544249226030596
 R2 :  0.8776244948230598
+
+
+input1 = Input(shape=(13,))
+dense1 = Dense(64, activation='relu')(input1)                 
+dense2 = Dense(52, activation='sigmoid')(dense1)
+dense3 = Dense(40, activation='relu')(dense2)
+dense4 = Dense(28, activation='relu')(dense3)
+dense5 = Dense(16, activation='relu')(dense4)
+dense6 = Dense(8, activation='linear')(dense5)
+output1 = Dense(1, activation='linear')(dense6)
+model = Model(inputs=input1, outputs=output1)
+scaler =StandardScaler()
+model.fit(x_train, y_train, epochs=10000, batch_size=12,
+RMSE :  3.2868854285081346
+R2 :  0.8947516918423088
+
 '''
