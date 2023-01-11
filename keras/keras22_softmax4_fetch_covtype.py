@@ -8,21 +8,44 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.metrics import accuracy_score
 import numpy as np
 
-#1. 데이터
+#1. 데이터 
 datasets = fetch_covtype()
 x = datasets.data
 y = datasets['target']
 
-y = pd.get_dummies(y)
-# y = np.argmax(y, axis=1)    
+# y = pd.get_dummies(y)             #pandas의 get_dummies
+# y = np.argmax(y, axis=1)          #pandas의 get_dummies
 
 # print(x.shape, y.shape)                 # (581012, 54) (581012,)
 # print(np.unique(y, return_counts=True))     #(array([1, 2, 3, 4, 5, 6, 7]), array([211840, 283301,  35754,   2747,   9493,  17367,  20510],dtype=int64))
 
+##################1. keras tocategorical###############################
+y = to_categorical(y)
+print(y.shape)      #(581012, 8)
+print(type(y))
+print(y[:10])
+print(np.unique(y[:,0], return_counts=True))    #y[:,0] 모든 행의 0번째를 보여줌.   (array([0.], dtype=float32), array([581012], dtype=int64))
+print(np.unique(y[:,1], return_counts=True))    #y[:,0] 모든 행의 0번째를 보여줌.   (array([0., 1.], dtype=float32), array([369172, 211840], dtype=int64))
+
+print('================================================')
+y = np.delete(y, 0, axis=1)                     # 전체 데이터중 0번째 데이터의 1열을 지워버림.
+print(y.shape)
+print(y[:10])
+print(np.unique(y[:,0], return_counts=True))    #y[:,0] 모든 행의 0번째를 보여줌.   (array([0.], dtype=float32), array([581012], dtype=int64))
+
+
+
+
+
+
+
 # print('y : ', type(y))
 # 힌트 .values  or  .numpy()    pandas
 # one-hot encoding 힌트. toarray()
-y = y.values    # y에 pd.get_dummies(y)로 돌린 값을 y.values를 통해 다시 y의 값만 출력함. 
+# y = y.values    # y에 pd.get_dummies(y)로 돌린 값을 y.values를 통해 다시 y의 값만 출력함. 
+                # to_categorical(y)
+                # one hot encoding
+
 
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -96,4 +119,11 @@ epochs=15,
 batch_size=200,
 loss :  0.44152364134788513
 accuracy :  0.8145142793655396
+
+
+test_size=0.2,
+epochs=5000, 
+batch_size=200,
+loss :  0.28568756580352783
+accuracy :  0.88493412733078
 '''
