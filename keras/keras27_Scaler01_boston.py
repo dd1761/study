@@ -8,20 +8,14 @@ from sklearn.preprocessing import StandardScaler
 
 #1. 데이터
 dataset = load_boston()
+
 x = dataset.data
 y = dataset.target
 
-# scaler = MinMaxScaler()
-scaler =StandardScaler()
-scaler.fit(x)                        # scaler에 대한 x값을 가중치에 저장
-x = scaler.transform(x)
 
 
-
-
-
-print(x)
-print(type(x))              # x의 데이터 타입은 <class 'numpy.ndarray'>
+# print(x)
+# print(type(x))              # x의 데이터 타입은 <class 'numpy.ndarray'>
 
 # print('최소값 : ',np.min(x))
 # print('최대값 : ',np.max(x))
@@ -30,11 +24,20 @@ print(type(x))              # x의 데이터 타입은 <class 'numpy.ndarray'>
 
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y,
-    train_size=0.7,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
+    train_size=0.8,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
     shuffle=True,                                       #shuffle=True면 랜덤데이터를 사용. shuffle=False면 순차적인 데이터를 사용.
-    random_state=123                                    #random_state는 123번에 저장되어있는 랜덤데이터를 사용. 
+    random_state=1234                                    #random_state는 123번에 저장되어있는 랜덤데이터를 사용. 
                                                         #random_state를 사용하지 않으면 프로그램을 실행할 때마다 값이 달라진다.
 )
+
+# scaler = MinMaxScaler()            
+scaler =StandardScaler()
+# scaler.fit(x_train)                        # scaler에 대한 x값을 가중치에 저장
+# x_train = scaler.transform(x_train)
+x_train = scaler.fit_transform(x_train)       #위에 scaler.fit이랑 transform과정을 한번에 적용한 것.
+x_test = scaler.transform(x_test)
+
+
 
 #print(x_train.shape)
 #print(dataset.feature_names)    #['CRIM' 'ZN' 'INDUS' 'CHAS' 'NOX' 'RM' 'AGE' 'DIS' 'RAD' 'TAX' 'PTRATIO''B' 'LSTAT']
@@ -44,31 +47,21 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(26, input_dim=13, activation='relu'))
-model.add(Dense(52, activation='relu'))
-model.add(Dense(26, activation='relu'))
-model.add(Dense(25, activation='relu'))
-model.add(Dense(24, activation='relu'))
-model.add(Dense(23, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(21, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(19, activation='relu'))
-model.add(Dense(18, activation='relu'))
-model.add(Dense(17, activation='relu'))
+model.add(Dense(64, input_dim=13, activation='relu'))
+model.add(Dense(12, activation='linear'))
 model.add(Dense(1, activation='linear'))
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping
 earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=30, restore_best_weights=True,
+                              patience=20, restore_best_weights=True,
                               verbose=1)
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=10000, batch_size=10,
+model.fit(x_train, y_train, epochs=10000, batch_size=8,
           callbacks=[earlyStopping],
           verbose=1,
-          validation_split=0.25) 
+          validation_split=0.2) 
 
 #4. 평가, 예측
 mse, mae = model.evaluate(x_test, y_test)
@@ -114,4 +107,10 @@ RMSE :  4.615781961236532
 R2 :  0.7364104153291334
 
 standard 변환
+RMSE :  23.55856468638172
+R2 :  -4.406841592766121
+
+minmax 변환
+RMSE :  22.492013705124776
+R2 :  -5.258847265152362
 '''
