@@ -83,7 +83,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
                               restore_best_weights=True,
                               verbose=1)
 start = time.time()
-hist = model.fit(x_train, y_train, epochs=30000, batch_size=1,validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
+hist = model.fit(x_train, y_train, epochs=30000, batch_size=10,validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
 end = time.time()
 
 #4. 평가, 예측
@@ -201,4 +201,14 @@ model.add(Dense(14, activation='relu'))
 model.add(Dense(2, activation='linear'))
 model.add(Dense(1, activation='linear'))
 RMSE :  48.15700299114179
+
+train_size=0.9,
+scaler = MinMax()
+model = Sequential()
+model.add(Dense(64, activation='relu', input_dim=9))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.add(Dense(1, activation='linear'))
+RMSE :  47.66720040122072
 '''

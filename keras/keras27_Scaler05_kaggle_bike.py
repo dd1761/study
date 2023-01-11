@@ -49,29 +49,24 @@ x_train, x_test, y_train, y_test = train_test_split(
     random_state=1234
 )
 
-# scaler = MinMaxScaler()            
-scaler =StandardScaler()
+scaler = MinMaxScaler()            
+# scaler =StandardScaler()
 # scaler.fit(x_train)                        # scaler에 대한 x값을 가중치에 저장
 # x_train = scaler.transform(x_train)
 x_train = scaler.fit_transform(x_train)       #위에 scaler.fit이랑 transform과정을 한번에 적용한 것.
 x_test = scaler.transform(x_test)
+test_csv = scaler.fit_transform(test_csv)
 
 # print(x_train.shape, x_test.shape)  
 # print(y_train.shape, y_test.shape)  
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(10, input_dim=8, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(10,activation='relu'))
-model.add(Dense(9,activation='relu'))
-model.add(Dense(8,activation='relu'))
-model.add(Dense(7,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(5,activation='relu'))
-model.add(Dense(4,activation='relu'))
-model.add(Dense(3,activation='relu'))
-model.add(Dense(2,activation='relu'))
+model.add(Dense(64, input_dim=8, activation='relu'))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40,activation='relu'))
+model.add(Dense(28,activation='relu'))
+model.add(Dense(16,activation='linear'))
 model.add(Dense(1, activation='linear'))
 
 
@@ -136,6 +131,7 @@ print(hist.history['loss'])
 print('=======================================================')
 print(hist.history['val_loss'])
 
+"""
 import matplotlib.pyplot as plt
 
 plt.figure(figsize=(9,6))
@@ -148,8 +144,46 @@ plt.title('bike loss')
 # plt.legend()
 plt.legend(loc='upper right')    #upper, lower, center
 plt.show()
-
+"""
 
 '''
+train_size=0.9,
+epochs=15000, batch_size=15
+model = Sequential()
+model.add(Dense(10, input_dim=8, activation='relu'))
+model.add(Dense(20, activation='relu'))
+model.add(Dense(10,activation='relu'))
+model.add(Dense(9,activation='relu'))
+model.add(Dense(8,activation='relu'))
+model.add(Dense(7,activation='relu'))
+model.add(Dense(6,activation='relu'))
+model.add(Dense(5,activation='relu'))
+model.add(Dense(4,activation='relu'))
+model.add(Dense(3,activation='relu'))
+model.add(Dense(2,activation='relu'))
+model.add(Dense(1, activation='linear'))
+RMSE :  144.76049923440533
+걸린시간 :  43.068374156951904
 
+train_size=0.9,
+epochs=15000, batch_size=15
+model = Sequential()
+model.add(Dense(64, input_dim=8, activation='relu'))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40,activation='relu'))
+model.add(Dense(28,activation='relu'))
+model.add(Dense(16,activation='linear'))
+model.add(Dense(1, activation='linear'))
+RMSE :  143.86987795478578
+
+train_size=0.9,
+epochs=15000, batch_size=15
+model = Sequential()
+model.add(Dense(64, input_dim=8, activation='relu'))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40,activation='relu'))
+model.add(Dense(28,activation='relu'))
+model.add(Dense(16,activation='linear'))
+model.add(Dense(1, activation='linear'))
+RMSE :  141.89388640602013
 '''

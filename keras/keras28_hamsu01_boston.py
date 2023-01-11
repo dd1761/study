@@ -54,7 +54,7 @@ x_test = scaler.transform(x_test)
 
 
 #2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
-input1 = Input(shape=(13,))
+input1 = Input(shape=(13,))                     
 dense1 = Dense(64, activation='relu')(input1)                 
 dense2 = Dense(52, activation='sigmoid')(dense1)
 dense3 = Dense(40, activation='relu')(dense2)
@@ -139,5 +139,7 @@ scaler =StandardScaler()
 model.fit(x_train, y_train, epochs=10000, batch_size=12,
 RMSE :  3.2868854285081346
 R2 :  0.8947516918423088
+
+
 
 '''
