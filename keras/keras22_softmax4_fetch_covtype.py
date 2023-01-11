@@ -101,9 +101,9 @@ print('accuracy : ', accuracy)
 
 y_predict = model.predict(x_test)       #원핫인코딩된 형태가 아니라 소수점자리의 데이터값으로 들어가있다.
 y_predict = np.argmax(y_predict, axis=1)    #y_predict의 값을 argmax를 통하여 one-hot encoding되어있는 데이터의 값을 원래 상태로 되돌린다.
-print('y_pred : ', y_predict)
+print('y_pred(예측값) : ', y_predict[:20])
 y_test = np.argmax(y_test, axis=1)          #y_test의 값을 one-hot encoding되어있는 상태에서 argmax를 통하여 원래의 데이터 형태로 되돌린다.
-print('y_test : ', y_test)
+print('y_test(원래값) : ', y_test[:20])
 # acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
 # print(acc)
 
