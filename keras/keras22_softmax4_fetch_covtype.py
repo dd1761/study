@@ -13,13 +13,13 @@ datasets = fetch_covtype()
 x = datasets.data
 y = datasets['target']
 
-# y = pd.get_dummies(y)             #pandas의 get_dummies
-# y = np.argmax(y, axis=1)          #pandas의 get_dummies
+
 
 # print(x.shape, y.shape)                 # (581012, 54) (581012,)
 # print(np.unique(y, return_counts=True))     #(array([1, 2, 3, 4, 5, 6, 7]), array([211840, 283301,  35754,   2747,   9493,  17367,  20510],dtype=int64))
 
 ##################1. keras tocategorical###############################
+"""
 y = to_categorical(y)
 print(y.shape)      #(581012, 8)
 print(type(y))
@@ -33,18 +33,55 @@ print(y.shape)
 print(y[:10])
 print(np.unique(y[:,0], return_counts=True))    #y[:,0] 모든 행의 0번째를 보여줌.   (array([0.], dtype=float32), array([581012], dtype=int64))
 
+"""
+
+##################2. pandas get_dummies ###############################
+'''
+y = pd.get_dummies(y)             #pandas의 get_dummies
+print(y[:10])
+print(type(y))                    # <class 'pandas.core.frame.DataFrame'>   판다스에서는 데이터 프레임형태는 자동생성된다. 헤더와 인덱스
+                                  #pandas의 데이터형태이기 때문에 텐서플로우에서는 상관없이 훈련되지만 뒤 argmax(y_test, axis=1)의 값이 numpy데이터 형태이기 때문에 pandas의 데이터형태인
+                                  #getdummies의 데이터형태를 알아보지 못한다.
+
+# y = np.argmax(y, axis=1)          #pandas의 get_dummies
+# y = y.values                      # y의 데이터는 판다스였는데 y.value를 통하여 넘파이의 데이터형태로 바꾸어주어야 한다.
+# y = y.to_numpy()                  # y의 데이터는 판다스였는데 y.to_numpy를 통하여 넘파이의 데이터형태로 바꾸어주어야 한다.
+                
+print(y.shape)
 
 
 
 
 
+
+'''
+##################3. sklearn의 one_hot encoding ###############################
 
 # print('y : ', type(y))
 # 힌트 .values  or  .numpy()    pandas
 # one-hot encoding 힌트. toarray()
-# y = y.values    # y에 pd.get_dummies(y)로 돌린 값을 y.values를 통해 다시 y의 값만 출력함. 
-                # to_categorical(y)
-                # one hot encoding
+
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder()
+print(y.shape)      #(581012,)
+y = y.reshape(581012, 1)            #(581012,) => (581012,1)
+print(y.shape)
+# ohe.fit(y)                          # <class 'scipy.sparse._csr.csr_matrix'>    fit에 y를 집어넣어 y의 가중치 값을 저장한다.
+# y = ohe.transform(y)
+y = ohe.fit_transform(y)            # ohe.fit(y)와 ohe.transform(y)를 한번에 해주는 코드
+
+y = y.toarray()                     # y의 값은 numpy의 데이터형태로 바꿔준다.
+print(type(y))
+
+
+print(y[:15])
+print(type(y))      
+print(y.shape)      # (581012, 7)
+
+
+
+
+
 
 
 
@@ -106,6 +143,7 @@ y_test = np.argmax(y_test, axis=1)          #y_test의 값을 one-hot encoding�
 print('y_test(원래값) : ', y_test[:20])
 # acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
 # print(acc)
+
 
 '''
 

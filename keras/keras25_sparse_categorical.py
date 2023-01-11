@@ -17,7 +17,7 @@ y = datasets['target']
 
 
 
-y = to_categorical(y)    # y의 값으로 one-hot encoding을 진행하여 y_ca값을 만듬.
+# y = to_categorical(y)    # y의 값으로 one-hot encoding을 진행하여 y_ca값을 만듬.
 # print(y_ca)
 # print(x)
 # print(y)
@@ -45,16 +45,11 @@ model.add(Dense(50, activation='relu', input_shape=(4,)))
 model.add(Dense(40, activation='sigmoid'))      #   회귀형식의 모델구성
 model.add(Dense(30, activation='relu'))
 model.add(Dense(20, activation='linear'))
-model.add(Dense(3, activation='softmax'))       # 다중분류에서는 softmax, y의 클래스의 수가 3이므로 Dense(3)으로 만들어준다.
-                                                # softmax의 y클래스의 확률은 총 합 100%가 나와야 한다.
-                                                # 다중분류에서 마지막 노드는 무조건 softmax를 사용.
-                                                # 수치화를 하였을 때 조심해야 하는 것은 0,1,2 를 각각 동등한 관계로 만들어주어야 한다. 만들어주지 않으면 1과 2의 가치는 2배차이
-                                                # one_hot-encoding 원핫인코딩
-                                                # y값의 개수만큼 colum이 늘어남.
+model.add(Dense(3, activation='softmax'))       # one_hot encoding은 하지 않았지만 자동으로 형을 변형해준다 y의 노드의 개수는 3개.
 
                                                 
 #3. 컴파일, 훈련
-model.compile(loss='categorical_crossentropy', optimizer='adam',
+model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['accuracy'])                                                
 
 model.fit(x_train, y_train, 
@@ -76,14 +71,15 @@ print('accuracy : ', accuracy)
 y_predict = model.predict(x_test)       #원핫인코딩된 형태가 아니라 소수점자리의 데이터값으로 들어가있다.
 y_predict = np.argmax(y_predict, axis=1)    #y_predict의 값을 argmax를 통하여 one-hot encoding되어있는 데이터의 값을 원래 상태로 되돌린다.
 print('y_pred(예측값) : ', y_predict)
-y_test = np.argmax(y_test, axis=1)          #y_test의 값을 one-hot encoding되어있는 상태에서 argmax를 통하여 원래의 데이터 형태로 되돌린다.
+
+# y_test = np.argmax(y_test, axis=1)          # one_hot encoding을 하지 않았으니 쓸 필요가 없다. 
 print('y_test(원래값) : ', y_test)
-# acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
-# print(acc)
+acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
+print(acc)
 
 
 
 
 
-
+#시작할 때 sparse_categorical_entorpy를 확인하여 one_hot encoding을 하였는지 확인하고 스파스카 카테고리 엔트로피가 존재한다면 원핫인코딩이 안되어있고 있으면 원핫이 되어있는 코드이다.
 
