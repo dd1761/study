@@ -81,5 +81,5 @@ print(acc)
 
 
 
-#시작할 때 sparse_categorical_entorpy를 확인하여 one_hot encoding을 하였는지 확인하고 스파스카 카테고리 엔트로피가 존재한다면 원핫인코딩이 안되어있고 있으면 원핫이 되어있는 코드이다.
+#시작할 때 sparse_categorical_entorpy를 확인하여 one_hot encoding을 하였는지 확인하고 스파스 카테고리 엔트로피가 존재한다면 원핫인코딩이 안되어있고 있으면 원핫이 되어있는 코드이다.
 
