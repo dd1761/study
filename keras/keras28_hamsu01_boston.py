@@ -1,6 +1,6 @@
 from sklearn.datasets import load_boston
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Input
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
@@ -13,13 +13,11 @@ x = dataset.data
 y = dataset.target
 
 
-
 # print(x)
 # print(type(x))              # x의 데이터 타입은 <class 'numpy.ndarray'>
 
 # print('최소값 : ',np.min(x))
 # print('최대값 : ',np.max(x))
-
 
 
 x_train, x_test, y_train, y_test = train_test_split(    
@@ -45,14 +43,28 @@ x_test = scaler.transform(x_test)
 #print(datasets.DESCR)
 
 
-#2. 모델구성
-model = Sequential()
-model.add(Dense(64, input_dim=13, activation='relu'))
-model.add(Dense(52, activation='sigmoid'))
-model.add(Dense(40, activation='relu'))
-model.add(Dense(28, activation='relu'))
-model.add(Dense(12, activation='relu'))
-model.add(Dense(1, activation='linear'))
+#2. 모델구성(순차형)
+# model = Sequential()
+# model.add(Dense(50, input_dim=13, activation='relu'))
+# model.add(Dense(40, activation='sigmoid'))
+# model.add(Dense(30, activation='relu'))
+# model.add(Dense(20, activation='linear'))
+# model.add(Dense(1, activation='linear'))
+
+
+
+#2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
+input1 = Input(shape=(13,))
+dense1 = Dense(64, activation='relu')(input1)                 
+dense2 = Dense(52, activation='sigmoid')(dense1)
+dense3 = Dense(40, activation='relu')(dense2)
+dense4 = Dense(28, activation='relu')(dense3)
+dense5 = Dense(16, activation='relu')(dense4)
+dense6 = Dense(8, activation='relu')(dense5)
+output1 = Dense(1, activation='linear')(dense6)
+model = Model(inputs=input1, outputs=output1)
+model.summary()
+
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping
@@ -61,7 +73,7 @@ earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
                               verbose=1)
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=10000, batch_size=8,
+model.fit(x_train, y_train, epochs=10000, batch_size=1,
           callbacks=[earlyStopping],
           verbose=1,
           validation_split=0.2) 
@@ -87,19 +99,7 @@ print("R2 : ", r2)
 
 
 '''
-model.add(Dense(26, input_dim=13))
-model.add(Dense(52, activation='relu'))
-model.add(Dense(26, activation='relu'))
-model.add(Dense(25, activation='relu'))
-model.add(Dense(24, activation='relu'))
-model.add(Dense(23, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(21, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(19, activation='relu'))
-model.add(Dense(18, activation='relu'))
-model.add(Dense(17, activation='relu'))
-model.add(Dense(1, activation='linear'))
+
 model.fit(x_train, y_train, epochs=10000, batch_size=10,validation_split=0.25) 
 RMSE :  4.4227262309073
 R2 :  0.75799864986511
@@ -116,4 +116,9 @@ R2 :  -4.406841592766121
 minmax 변환
 RMSE :  22.492013705124776
 R2 :  -5.258847265152362
+
+
+scaler =StandardScaler()
+RMSE :  3.544249226030596
+R2 :  0.8776244948230598
 '''
