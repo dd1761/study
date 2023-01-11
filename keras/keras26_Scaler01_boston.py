@@ -4,22 +4,27 @@ from tensorflow.keras.layers import Dense
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 
 #1. 데이터
 dataset = load_boston()
 x = dataset.data
 y = dataset.target
 
-scaler = MinMaxScaler()
-scaler.fit(x)               # scaler에 대한 x값을 가중치에 저장
+# scaler = MinMaxScaler()
+scaler =StandardScaler()
+scaler.fit(x)                        # scaler에 대한 x값을 가중치에 저장
 x = scaler.transform(x)
+
+
+
 
 
 print(x)
 print(type(x))              # x의 데이터 타입은 <class 'numpy.ndarray'>
 
-print('최소값 : ',np.min(x))
-print('최대값 : ',np.max(x))
+# print('최소값 : ',np.min(x))
+# print('최대값 : ',np.max(x))
 
 
 
@@ -54,8 +59,14 @@ model.add(Dense(17, activation='relu'))
 model.add(Dense(1, activation='linear'))
 
 #3. 컴파일, 훈련
+from tensorflow.keras.callbacks import EarlyStopping
+earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
+                              patience=30, restore_best_weights=True,
+                              verbose=1)
+
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 model.fit(x_train, y_train, epochs=10000, batch_size=10,
+          callbacks=[earlyStopping],
           verbose=1,
           validation_split=0.25) 
 
@@ -98,6 +109,9 @@ RMSE :  4.4227262309073
 R2 :  0.75799864986511
 변환전
 
-변환후
+변환후(minmax 변환)
+RMSE :  4.615781961236532
+R2 :  0.7364104153291334
 
+standard 변환
 '''
