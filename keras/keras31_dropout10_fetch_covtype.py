@@ -100,16 +100,18 @@ x_test = scaler.transform(x_test)
 
 
 #2. 모델구성
+#2. 모델구성
 model = Sequential()
-model.add(Dense(100, activation='relu', input_shape=(54,)))
-model.add(Dense(70, activation='relu'))      #   회귀형식의 모델구성
-model.add(Dense(60, activation='relu'))
-model.add(Dense(50, activation='relu'))
+model.add(Dense(64, activation='relu', input_dim=9))
+model.add(Dropout(0.5)) 
+model.add(Dense(52, activation='relu'))
+model.add(Dropout(0.5)) 
 model.add(Dense(40, activation='relu'))
-model.add(Dense(30, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(10, activation='relu'))
-model.add(Dense(7, activation='softmax')) 
+model.add(Dropout(0.5)) 
+model.add(Dense(28, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.add(Dense(1, activation='softmax')) 
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy', optimizer='adam',

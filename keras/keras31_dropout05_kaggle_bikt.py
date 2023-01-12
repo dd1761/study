@@ -72,118 +72,62 @@ model.add(Dense(1, activation='linear'))
 
 
 #3. 컴파일, 훈련
-import time
-model.compile(loss='mse', optimizer='adam')
-start = time.time()
 
-from tensorflow.keras.callbacks import EarlyStopping
-earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=50,
-                              restore_best_weights=True,
-                              verbose=1)
-hist = model.fit(x_train, y_train, epochs=15000, batch_size=20, validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
-end = time.time()
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+                              restore_best_weights=True,                        
+                              verbose=1 
+                              )
+
+import datetime
+date = datetime.datetime.now()     
+print(date)                         # 2023-01-12 14:57:50.668057
+print(type(date))                   # <class 'datetime.datetime'>
+date = date.strftime("%m%d_%H%M")              # string format time    date를 시간형태가 아닌 문자열로 바꿔준다.
+print(date)
+print(type(date))                   # <class 'str'>
+
+filepath = './_save/MCP/'
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
+
+
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+                      save_best_only=True,
+                    #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
+                      filepath = filepath + 'k31_05_' + date + '_' + filename
+                      )
+
+
+model.fit(x_train, y_train, epochs=10000, batch_size=10,
+          callbacks=[es, mcp],
+          verbose=1,
+          validation_split=0.2,
+          ) 
+
+# model.save(path + "keras30_ModelCheckPoint3_save_model.h5")     # 가중치와 모델 저장.
+
+
+
+# model = load_model(path +'MCP/keras30_ModelCheckPoint1.hdf5')
+
 
 #4. 평가, 예측
-loss = model.evaluate(x_test, y_test)
-print('loss : ', loss)
-#1
+print('========================1. 기본 출력 ============================')
+
+
+mse, mae = model.evaluate(x_test, y_test)
+
+
+
+
 y_predict = model.predict(x_test)
-print(y_predict)
 
-# 결측치 나쁜놈!!!
-# 결측치 때문에!!!
-# 결측치가 존재해서 nan이 나온다.
+# print("y_test(원래값) : ", y_test)
 
+from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포트만 하면 사용할 수 있다.
+      # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
 
-def RMSE(y_test, y_predict):
-    return np.sqrt(mean_squared_error(y_test, y_predict))       # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
-rmse = RMSE(y_test, y_predict)
-print('RMSE : ', rmse)      
-
-print('걸린시간 : ', end-start)
-
-
-# 제출할 데이터
-y_submit = model.predict(test_csv)
-# print(y_submit)
-# print(y_submit.shape)   # (715, 1)
-
-
-#   .to_csv()를 사용해서 submission_0105.csv를 완성하시오
-
-
-# print(submission)
-sampleSubmission['count'] = y_submit
-# print(sampleSubmission)
-
-sampleSubmission.to_csv(path + 'sampleSubmission_0106.csv')
-
-# CPU 걸린시간 : 
-# GPU 걸린시간 :
-
-print('=======================================================')
-print(hist) 
-print('=======================================================')
-print(hist.history) 
-print('=======================================================')
-print(hist.history['loss'])
-print('=======================================================')
-print(hist.history['val_loss'])
-
-"""
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(9,6))
-plt.plot(hist.history['loss'], color='red', marker='.', label='loss')   # 선의 색은 color='red'빨간색 maker='.'은 선의 형태는 점선으로 label='loss'는 선의 이름은 loss
-plt.plot(hist.history['val_loss'], color='blue', marker='.', label='val_loss')
-plt.grid()
-plt.xlabel('epochs')    #plt의 x축의 이름
-plt.ylabel('loss')      #plt의 y축의 이름
-plt.title('bike loss')
-# plt.legend()
-plt.legend(loc='upper right')    #upper, lower, center
-plt.show()
-"""
-
-'''
-train_size=0.9,
-epochs=15000, batch_size=15
-model = Sequential()
-model.add(Dense(10, input_dim=8, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(10,activation='relu'))
-model.add(Dense(9,activation='relu'))
-model.add(Dense(8,activation='relu'))
-model.add(Dense(7,activation='relu'))
-model.add(Dense(6,activation='relu'))
-model.add(Dense(5,activation='relu'))
-model.add(Dense(4,activation='relu'))
-model.add(Dense(3,activation='relu'))
-model.add(Dense(2,activation='relu'))
-model.add(Dense(1, activation='linear'))
-RMSE :  144.76049923440533
-걸린시간 :  43.068374156951904
-
-train_size=0.9,
-epochs=15000, batch_size=15
-model = Sequential()
-model.add(Dense(64, input_dim=8, activation='relu'))
-model.add(Dense(52, activation='relu'))
-model.add(Dense(40,activation='relu'))
-model.add(Dense(28,activation='relu'))
-model.add(Dense(16,activation='linear'))
-model.add(Dense(1, activation='linear'))
-RMSE :  143.86987795478578
-
-train_size=0.9,
-epochs=15000, batch_size=15
-model = Sequential()
-model.add(Dense(64, input_dim=8, activation='relu'))
-model.add(Dense(52, activation='relu'))
-model.add(Dense(40,activation='relu'))
-model.add(Dense(28,activation='relu'))
-model.add(Dense(16,activation='linear'))
-model.add(Dense(1, activation='linear'))
-RMSE :  141.89388640602013
-'''
+r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
+print('mse : ', mse)
+print("R2스코어  : ", r2)
