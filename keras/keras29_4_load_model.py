@@ -45,30 +45,14 @@ x_test = scaler.transform(x_test)
 
 #2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
 
-
 # path = './_save/'
 # path = '../_save/'
 path = 'c:/study/_save/'
 
-# model.save(path + 'keras29_1_save_model.h5')
-# model.save('./save/keras29_1_save_model.h5')
-
-model = load_model(path + 'keras29_1_save_model.h5')        #모델 저장. 
-model.summary()                                             #모델 확인
-
-
+model = load_model(path + 'keras29_3_save_model.h5')
 
 #3. 컴파일, 훈련
-from tensorflow.keras.callbacks import EarlyStopping
-earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=150, restore_best_weights=True,
-                              verbose=1)
 
-model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=10000, batch_size=20,
-          callbacks=[earlyStopping],
-          verbose=1,
-          validation_split=0.2) 
 
 #4. 평가, 예측
 mse, mae = model.evaluate(x_test, y_test)

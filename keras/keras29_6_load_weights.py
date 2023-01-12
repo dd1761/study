@@ -6,19 +6,15 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 
+# path = './_save/'
+# path = '../_save/'
+path = 'c:/study/_save/'
+
 #1. 데이터
 dataset = load_boston()
 
 x = dataset.data
 y = dataset.target
-
-
-# print(x)
-# print(type(x))              # x의 데이터 타입은 <class 'numpy.ndarray'>
-
-# print('최소값 : ',np.min(x))
-# print('최대값 : ',np.max(x))
-
 
 x_train, x_test, y_train, y_test = train_test_split(    
     x, y,
@@ -30,20 +26,10 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 # scaler = MinMaxScaler()            
 scaler =StandardScaler()
-# scaler.fit(x_train)                        # scaler에 대한 x값을 가중치에 저장
-# x_train = scaler.transform(x_train)
 x_train = scaler.fit_transform(x_train)       #위에 scaler.fit이랑 transform과정을 한번에 적용한 것.
 x_test = scaler.transform(x_test)
 
-
-
-#print(x_train.shape)
-#print(dataset.feature_names)    #['CRIM' 'ZN' 'INDUS' 'CHAS' 'NOX' 'RM' 'AGE' 'DIS' 'RAD' 'TAX' 'PTRATIO''B' 'LSTAT']
-
-#print(datasets.DESCR)
-
-
-#2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
+# 2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
 input1 = Input(shape=(13,))                     
 dense1 = Dense(64, activation='relu')(input1)    
 dense2 = Dense(56, activation='relu')(dense1)                              
@@ -58,30 +44,30 @@ output1 = Dense(1, activation='linear')(dense9)
 model = Model(inputs=input1, outputs=output1)
 model.summary()
 
+# model.save_weights(path + 'keras29_5_save_weights1.h5')            # 컴파일, 훈련까지 시킨 모델은 최종 결과치가 저장되기 때문에 가중치('loss')값은 절대 바뀌지 않는다
 
-# path = './_save/'
-# path = '../_save/'
-path = 'c:/study/_save/'
-
-# model.save(path + 'keras29_1_save_model.h5')      #여기에 저장하는 모델은 컴파일하지 않은 모델이 저장되기 때문에 가중치('loss')값은 저장되지 않는다. 모델만 저장!
-# model.save('./save/keras29_1_save_model.h5')
-
-
-
-
+# model = model.load_weights(path + 'keras29_5_save_weights1.h5')      # model.load_weights는 가중치만 저장이 되기 때문에 모델이 정의되어있어야 사용가능하다.
+# model = model.load_weights(path + 'keras29_5_save_weights2.h5')      # model.load_weights는 가중치만 저장이 되기 때문에 모델이 정의되어있어야 사용가능하다.
 
 
 #3. 컴파일, 훈련
-from tensorflow.keras.callbacks import EarlyStopping
-earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=100, restore_best_weights=True,
-                              verbose=1)
+# from tensorflow.keras.callbacks import EarlyStopping
+# earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
+#                               patience=100, restore_best_weights=True,
+#                               verbose=1)
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=10000, batch_size=10,
-          callbacks=[earlyStopping],
-          verbose=1,
-          validation_split=0.2) 
+# model.fit(x_train, y_train, epochs=10000, batch_size=10,
+#           callbacks=[earlyStopping],
+#           verbose=1,
+#           validation_split=0.2) 
+
+# model = model.load_weights(path + 'keras29_5_save_weights1.h5')      # model.load_weights는 가중치만 저장이 되기 때문에 모델이 정의되어있어야 사용가능하다.
+model.load_weights(path + 'keras29_5_save_weights2.h5')      # model.load_weights는 가중치만 저장이 되기 때문에 모델이 정의되어있어야 사용가능하다.
+
+# model.save_weights(path + 'keras29_5_save_weights2.h5')            # 컴파일, 훈련까지 시킨 모델은 최종 결과치가 저장되기 때문에 가중치('loss')값은 절대 바뀌지 않는다
+#RMSE :  3.8033699105842307
+#R2 :  0.8590765963432276
 
 #4. 평가, 예측
 mse, mae = model.evaluate(x_test, y_test)
@@ -103,46 +89,3 @@ r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가
 print("R2 : ", r2)
 
 
-'''
-
-model.fit(x_train, y_train, epochs=10000, batch_size=10,validation_split=0.25) 
-RMSE :  4.4227262309073
-R2 :  0.75799864986511
-변환전
-
-변환후(minmax 변환)
-RMSE :  4.615781961236532
-R2 :  0.7364104153291334
-
-standard 변환
-RMSE :  23.55856468638172
-R2 :  -4.406841592766121
-
-minmax 변환
-RMSE :  22.492013705124776
-R2 :  -5.258847265152362
-
-
-scaler =StandardScaler()
-model.fit(x_train, y_train, epochs=10000, batch_size=1,
-RMSE :  3.544249226030596
-R2 :  0.8776244948230598
-
-
-input1 = Input(shape=(13,))
-dense1 = Dense(64, activation='relu')(input1)                 
-dense2 = Dense(52, activation='sigmoid')(dense1)
-dense3 = Dense(40, activation='relu')(dense2)
-dense4 = Dense(28, activation='relu')(dense3)
-dense5 = Dense(16, activation='relu')(dense4)
-dense6 = Dense(8, activation='linear')(dense5)
-output1 = Dense(1, activation='linear')(dense6)
-model = Model(inputs=input1, outputs=output1)
-scaler =StandardScaler()
-model.fit(x_train, y_train, epochs=10000, batch_size=12,
-RMSE :  3.2868854285081346
-R2 :  0.8947516918423088
-
-
-
-'''

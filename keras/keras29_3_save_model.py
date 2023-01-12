@@ -1,5 +1,5 @@
 from sklearn.datasets import load_boston
-from tensorflow.keras.models import Sequential, Model, load_model
+from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Input
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -44,31 +44,41 @@ x_test = scaler.transform(x_test)
 
 
 #2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
+input1 = Input(shape=(13,))                     
+dense1 = Dense(64, activation='relu')(input1)    
+dense2 = Dense(56, activation='relu')(dense1)                              
+dense3 = Dense(52, activation='sigmoid')(dense2)
+dense4 = Dense(40, activation='relu')(dense3)
+dense5 = Dense(28, activation='relu')(dense4)
+dense6 = Dense(16, activation='relu')(dense5)
+dense7 = Dense(12, activation='relu')(dense6)
+dense8 = Dense(8, activation='relu')(dense7)
+dense9 = Dense(4, activation='linear')(dense8)
+output1 = Dense(1, activation='linear')(dense9)
+model = Model(inputs=input1, outputs=output1)
+model.summary()
 
 
 # path = './_save/'
 # path = '../_save/'
 path = 'c:/study/_save/'
 
-# model.save(path + 'keras29_1_save_model.h5')
-# model.save('./save/keras29_1_save_model.h5')
-
-model = load_model(path + 'keras29_1_save_model.h5')        #모델 저장. 
-model.summary()                                             #모델 확인
-
-
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping
 earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=150, restore_best_weights=True,
+                              patience=100, restore_best_weights=True,
                               verbose=1)
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(x_train, y_train, epochs=10000, batch_size=20,
+model.fit(x_train, y_train, epochs=10000, batch_size=10,
           callbacks=[earlyStopping],
           verbose=1,
           validation_split=0.2) 
+
+model.save(path + 'keras29_3_save_model.h5')            # 컴파일, 훈련까지 시킨 모델은 최종 결과치가 저장되기 때문에 가중치('loss')값은 절대 바뀌지 않는다
+#RMSE :  3.8033699105842307
+#R2 :  0.8590765963432276
 
 #4. 평가, 예측
 mse, mae = model.evaluate(x_test, y_test)
