@@ -47,7 +47,7 @@ y = train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.9,
+    train_size=0.7,
     shuffle=True,
     random_state=1234
 )
@@ -69,6 +69,8 @@ model = Sequential()
 model.add(Dense(64, activation='relu', input_dim=9))
 model.add(Dense(52, activation='relu'))
 model.add(Dense(40, activation='relu'))
+model.add(Dense(28, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(2, activation='linear'))
 model.add(Dense(1, activation='linear'))
 
@@ -79,7 +81,7 @@ import time
 model.compile(loss='mse', optimizer='adam')
 from tensorflow.keras.callbacks import EarlyStopping
 earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=10,
+                              patience=500,
                               restore_best_weights=True,
                               verbose=1)
 start = time.time()
@@ -211,4 +213,14 @@ model.add(Dense(40, activation='relu'))
 model.add(Dense(2, activation='linear'))
 model.add(Dense(1, activation='linear'))
 RMSE :  47.66720040122072
+
+train_size=0.7,
+scaler = MinMax()
+model = Sequential()
+model.add(Dense(64, activation='relu', input_dim=9))
+model.add(Dense(52, activation='relu'))
+model.add(Dense(40, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.add(Dense(1, activation='linear'))
+RMSE :  47.15917122068126
 '''

@@ -5,8 +5,9 @@ from tensorflow.keras.layers import Dense
 # 1. 데이터
 x = np.array([range(10), range(21, 31), range(201, 211)])
 # print(range(10))
+print(x.shape)
 
-
+'''
 x = x.T # (10,3)
 print(x.shape)
 
@@ -59,3 +60,4 @@ epochs=500 batch_size=1
 예측값 : 10.212388, 1.4901893
 loss : 0.34712
 """
+'''
