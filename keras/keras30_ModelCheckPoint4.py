@@ -73,7 +73,7 @@ print(date)
 print(type(date))                   # <class 'str'>
 
 filepath = './_save/MCP/'
-filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) epoch 37회면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
 
 
 mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
@@ -89,7 +89,7 @@ model.fit(x_train, y_train, epochs=10000, batch_size=10,
           validation_split=0.2,
           ) 
 
-model.save(path + "keras30_ModelCheckPoint3_save_model.h5")     # 가중치와 모델 저장.
+# model.save(path + "keras30_ModelCheckPoint3_save_model.h5")     # 가중치와 모델 저장.
 
 
 
@@ -117,40 +117,6 @@ print('mse : ', mse)
 print("R2스코어  : ", r2)
 
 
-print('========================2. load_model 출력 ============================')
-model2 = load_model(path + 'keras30_ModelCheckPoint3_save_model.h5')
-
-mse, mae = model2.evaluate(x_test, y_test)
-
-
-y_predict = model2.predict(x_test)
-
-# print("y_test(원래값) : ", y_test)
-
-from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포트만 하면 사용할 수 있다.
-      # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
-
-r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
-print('mse : ', mse)
-print("R2스코어  : ", r2)
-
-
-print('========================3. ModelCheckPoint 출력 ============================')
-model3 = load_model(path + 'MCP/keras30_ModelCheckPoint3.hdf5')
-
-mse, mae = model3.evaluate(x_test, y_test)
-
-
-y_predict = model3.predict(x_test)
-
-# print("y_test(원래값) : ", y_test)
-
-from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포트만 하면 사용할 수 있다.
-      # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
-
-r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
-print('mse : ', mse)
-print("R2스코어  : ", r2)
 
 '''
 
