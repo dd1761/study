@@ -1,6 +1,6 @@
 from sklearn.datasets import load_breast_cancer
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential, Model,load_model
+from tensorflow.keras.layers import Dense,Input, Dropout
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
@@ -35,53 +35,76 @@ x_test = scaler.transform(x_test)
 
 
 #2. 모델구성
+#2. 모델구성
 model = Sequential()
 model.add(Dense(50, activation='linear', input_shape=(30,)))
+model.add(Dropout(0.5)) 
+model.add(Dense(52, activation='relu'))
+model.add(Dropout(0.5)) 
 model.add(Dense(40, activation='relu'))
-model.add(Dense(30, activation='relu'))
-model.add(Dense(20, activation='relu'))
-model.add(Dense(10, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))   # 0과 1사이의 값만 뽑아야 하기 때문에 activation을 sigmoid를 사용한다.
+model.add(Dropout(0.5)) 
+model.add(Dense(28, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.add(Dense(1, activation='sigmoid'))  # 0과 1사이의 값만 뽑아야 하기 때문에 activation을 sigmoid를 사용한다.
 
-#3. 컴파일, 훈련
-model.compile(loss='binary_crossentropy', optimizer='adam',
-              metrics=['accuracy'])    # 지금이해하기는 힘들다. 일단 외워라!
+##3. 컴파일, 훈련
+
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+                              restore_best_weights=True,                        
+                              verbose=1 
+                              )
+
+import datetime
+date = datetime.datetime.now()     
+print(date)                         # 2023-01-12 14:57:50.668057
+print(type(date))                   # <class 'datetime.datetime'>
+date = date.strftime("%m%d_%H%M")              # string format time    date를 시간형태가 아닌 문자열로 바꿔준다.
+print(date)
+print(type(date))                   # <class 'str'>
+
+filepath = './_save/MCP/'
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
 
 
-from tensorflow.keras.callbacks import EarlyStopping    #대문자면 파이썬의 클래스로 구현되어있다.
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+                      save_best_only=True,
+                    #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
+                      filepath = filepath + 'k31_06_' + date + '_' + filename
+                      )
 
-# earlyStopping = EarlyStopping(monitor='val_loss',   # monitor='val_loss'를 쓰는 이유는 val_loss를 사용하는 것이 가장 좋다. loss를 사용해도 괜찮다.
-earlyStopping = EarlyStopping(monitor='accuracy',   # monitor='val_loss'를 쓰는 이유는 val_loss를 사용하는 것이 가장 좋다. loss를 사용해도 괜찮다.
-                              mode='auto',          # min, max, auto   loss와 val_loss는 min, accuracy값은 max 모르겠으면 auto
-                              patience=10, 
-                              restore_best_weights=True, 
-                              verbose=1)   #loss값과 val_loss값은 최소값이 가장 좋지만 accuracy 값은 최대값이 좋다.
 
-model.fit(x_train, y_train, epochs=10000, 
-          batch_size=16, 
-          validation_split=0.2, 
-          callbacks=[earlyStopping] , # callbacks=[earlyStopping] 모델을 훈련시키고 실행하는 과정에서 가장 최적의 값을 찾아내면 epochs값만큼 실행하지 않고 조기종료 함.
-          verbose=1)   
+model.fit(x_train, y_train, epochs=10000, batch_size=10,
+          callbacks=[es, mcp],
+          verbose=1,
+          validation_split=0.2,
+          ) 
 
-#4. 평가 예측
-# loss = model.evaluate(x_test, y_test)
-# print('loss, accruacy : ', loss)
+# model.save(path + "keras30_ModelCheckPoint3_save_model.h5")     # 가중치와 모델 저장.
 
-loss, accuracy = model.evaluate(x_test, y_test)
-print('loss, : ', loss) # loss :  [0.17049993574619293, 0.9473684430122375]     앞에 첫번째 값은 loss값이고 나머지 한개는 metrics=['accuracy'] 값으로 나온다.
-print('accuracy : ', accuracy)
+
+
+# model = load_model(path +'MCP/keras30_ModelCheckPoint1.hdf5')
+
+
+#4. 평가, 예측
+print('========================1. 기본 출력 ============================')
+
+
+mse, mae = model.evaluate(x_test, y_test)
+
+
 
 
 y_predict = model.predict(x_test)
 
-# print(y_predict[:10])           # -> 정수형으로 바꾸어야 한다.
-# print(y_test[:10])
+# print("y_test(원래값) : ", y_test)
 
-# y_predict =y_predict.flatten()
-y_predict = np.where(y_predict > 0.5, 1 , 0)
-print('y_predict : \n', y_predict)
+from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포트만 하면 사용할 수 있다.
+      # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
 
-
-from sklearn.metrics import r2_score, accuracy_score
-acc = accuracy_score(y_test, y_predict)
-print("accuracy_score : ", acc)
+r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
+print('mse : ', mse)
+print("R2스코어  : ", r2)

@@ -1,6 +1,6 @@
 from sklearn.datasets import load_iris  # 꽃잎의 길이와 넓이, 줄기의 길이를 가지고 어떤 꽃인지를 맞추는 알고리즘
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential, Model,load_model
+from tensorflow.keras.layers import Dense,Input, Dropout
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical   # one hot encoding을 사용하기 위해 to_categorical을 가지고 와 사용한다.
 from sklearn.metrics import accuracy_score
@@ -50,11 +50,16 @@ x_test = scaler.transform(x_test)
 
 
 #2. 모델구성
+#2. 모델구성
 model = Sequential()
 model.add(Dense(50, activation='relu', input_shape=(4,)))
-model.add(Dense(40, activation='sigmoid'))      #   회귀형식의 모델구성
-model.add(Dense(30, activation='relu'))
-model.add(Dense(20, activation='linear'))
+model.add(Dropout(0.5)) 
+model.add(Dense(52, activation='relu'))
+model.add(Dropout(0.5)) 
+model.add(Dense(40, activation='relu'))
+model.add(Dropout(0.5)) 
+model.add(Dense(28, activation='relu'))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(3, activation='softmax'))       # 다중분류에서는 softmax, y의 클래스의 수가 3이므로 Dense(3)으로 만들어준다.
                                                 # softmax의 y클래스의 확률은 총 합 100%가 나와야 한다.
                                                 # 다중분류에서 마지막 노드는 무조건 softmax를 사용.
@@ -64,32 +69,65 @@ model.add(Dense(3, activation='softmax'))       # 다중분류에서는 softmax,
 
                                                 
 #3. 컴파일, 훈련
-model.compile(loss='categorical_crossentropy', optimizer='adam',
-              metrics=['accuracy'])                                                
 
-model.fit(x_train, y_train, 
-          epochs=100, 
-          batch_size=1,
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+                              restore_best_weights=True,                        
+                              verbose=1 
+                              )
+
+import datetime
+date = datetime.datetime.now()     
+print(date)                         # 2023-01-12 14:57:50.668057
+print(type(date))                   # <class 'datetime.datetime'>
+date = date.strftime("%m%d_%H%M")              # string format time    date를 시간형태가 아닌 문자열로 바꿔준다.
+print(date)
+print(type(date))                   # <class 'str'>
+
+filepath = './_save/MCP/'
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
+
+
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+                      save_best_only=True,
+                    #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
+                      filepath = filepath + 'k31_07_' + date + '_' + filename
+                      )
+
+
+model.fit(x_train, y_train, epochs=10000, batch_size=10,
+          callbacks=[es, mcp],
+          verbose=1,
           validation_split=0.2,
-          verbose=1)
+          ) 
+
+# model.save(path + "keras30_ModelCheckPoint3_save_model.h5")     # 가중치와 모델 저장.
+
+
+
+# model = load_model(path +'MCP/keras30_ModelCheckPoint1.hdf5')
+
 
 #4. 평가, 예측
-loss, accuracy = model.evaluate(x_test, y_test) 
-print('loss : ', loss)
-print('accuracy : ', accuracy)
-
-# print(y_test[:5])   # 원래의 y값 
-# y_predict = model.predict(x_test[:5])   # 예측한 y값
-# print(y_predict)        #one hot encoding된 값이 나오게 된다. 
+print('========================1. 기본 출력 ============================')
 
 
-y_predict = model.predict(x_test)       #원핫인코딩된 형태가 아니라 소수점자리의 데이터값으로 들어가있다.
-y_predict = np.argmax(y_predict, axis=1)    #y_predict의 값을 argmax를 통하여 one-hot encoding되어있는 데이터의 값을 원래 상태로 되돌린다.
-print('y_pred(예측값) : ', y_predict)
-y_test = np.argmax(y_test, axis=1)          #y_test의 값을 one-hot encoding되어있는 상태에서 argmax를 통하여 원래의 데이터 형태로 되돌린다.
-print('y_test(원래값) : ', y_test)
-# acc = accuracy_score(y_test, y_predict) # y_test의 값은 원핫인코딩이 되어있는 상태이지만 y_predict의 값은 소수점의 값이기 때문에 비교가 되지 않는다.
-# print(acc)
+mse, mae = model.evaluate(x_test, y_test)
+
+
+
+
+y_predict = model.predict(x_test)
+
+# print("y_test(원래값) : ", y_test)
+
+from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포트만 하면 사용할 수 있다.
+      # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
+
+r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
+print('mse : ', mse)
+print("R2스코어  : ", r2)
 
 
 

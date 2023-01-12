@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential, Model,load_model
+from tensorflow.keras.layers import Dense,Input, Dropout
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.preprocessing import MinMaxScaler
@@ -62,11 +62,15 @@ test_csv = scaler.fit_transform(test_csv)
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(64, input_dim=8, activation='relu'))
+model.add(Dense(64, activation='relu', input_dim=8))
+model.add(Dropout(0.5)) 
 model.add(Dense(52, activation='relu'))
-model.add(Dense(40,activation='relu'))
-model.add(Dense(28,activation='relu'))
-model.add(Dense(16,activation='linear'))
+model.add(Dropout(0.5)) 
+model.add(Dense(40, activation='relu'))
+model.add(Dropout(0.5)) 
+model.add(Dense(28, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(2, activation='linear'))
 model.add(Dense(1, activation='linear'))
 
 

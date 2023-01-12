@@ -1,8 +1,8 @@
 # 와인을 감정하는 데이터
 import numpy as np
 from sklearn.datasets import load_wine
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.models import Sequential, Model,load_model
+from tensorflow.keras.layers import Dense,Input, Dropout
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
@@ -39,7 +39,7 @@ x_test = scaler.transform(x_test)
 #2. 모델구성
 #2. 모델구성
 model = Sequential()
-model.add(Dense(64, activation='relu', input_dim=9))
+model.add(Dense(50, activation='relu', input_shape=(13,)))
 model.add(Dropout(0.5)) 
 model.add(Dense(52, activation='relu'))
 model.add(Dropout(0.5)) 
@@ -47,31 +47,65 @@ model.add(Dense(40, activation='relu'))
 model.add(Dropout(0.5)) 
 model.add(Dense(28, activation='relu'))
 model.add(Dense(16, activation='relu'))
-model.add(Dense(2, activation='linear'))
-model.add(Dense(1, activation='softmax'))
+model.add(Dense(3, activation='softmax'))
 
 #3. 컴파일, 훈련
-from tensorflow.keras.callbacks import EarlyStopping
-earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=30, restore_best_weights=True,
-                              verbose=1) 
-model.compile(loss='categorical_crossentropy', optimizer='adam',    # sparse_categorical_crossentropy 로 변경해도 가능
-              metrics=['accuracy'])
-model.fit(x_train, y_train, epochs=1500, batch_size=32,
-          callbacks=[earlyStopping],
+
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+                              restore_best_weights=True,                        
+                              verbose=1 
+                              )
+
+import datetime
+date = datetime.datetime.now()     
+print(date)                         # 2023-01-12 14:57:50.668057
+print(type(date))                   # <class 'datetime.datetime'>
+date = date.strftime("%m%d_%H%M")              # string format time    date를 시간형태가 아닌 문자열로 바꿔준다.
+print(date)
+print(type(date))                   # <class 'str'>
+
+filepath = './_save/MCP/'
+filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
+
+
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+                      save_best_only=True,
+                    #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
+                      filepath = filepath + 'k31_08_' + date + '_' + filename
+                      )
+
+
+model.fit(x_train, y_train, epochs=10000, batch_size=10,
+          callbacks=[es, mcp],
+          verbose=1,
           validation_split=0.2,
-          verbose=1)
+          ) 
 
-from sklearn.metrics import accuracy_score
-import numpy as np
+# model.save(path + "keras30_ModelCheckPoint3_save_model.h5")     # 가중치와 모델 저장.
 
-y_predict =  model.predict(x_test)
-# print(y_predict)
-y_predict = np.argmax(y_predict, axis = 1)                  # 가장 큰 자릿값 뽑아냄   / axis=1 (가로축(행)), axis=0 (세로축(열))
-print("y_pred(예측값) : ", y_predict)
 
-y_test = np.argmax(y_test, axis=1)
-print("y_test(원래값) : ", y_test)
 
-acc = accuracy_score(y_test, y_predict)                     # 소수점 들어가는 실수 형태로 구성// error 발생
-print(acc)
+# model = load_model(path +'MCP/keras30_ModelCheckPoint1.hdf5')
+
+
+#4. 평가, 예측
+print('========================1. 기본 출력 ============================')
+
+
+mse, mae = model.evaluate(x_test, y_test)
+
+
+
+
+y_predict = model.predict(x_test)
+
+# print("y_test(원래값) : ", y_test)
+
+from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포트만 하면 사용할 수 있다.
+      # np.sqrt는 값에 루트를 적용한다. mean_squared_error은 mse값 적용
+
+r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
+print('mse : ', mse)
+print("R2스코어  : ", r2)
