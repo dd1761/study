@@ -44,13 +44,13 @@ y = train_csv['count']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x,y,
-    train_size=0.9,
+    train_size=0.7,
     shuffle=True,
     random_state=1234
 )
 
-scaler = MinMaxScaler()            
-# scaler =StandardScaler()
+# scaler = MinMaxScaler()            
+scaler =StandardScaler()
 # scaler.fit(x_train)                        # scaler에 대한 x값을 가중치에 저장
 # x_train = scaler.transform(x_train)
 x_train = scaler.fit_transform(x_train)       #위에 scaler.fit이랑 transform과정을 한번에 적용한 것.
@@ -78,10 +78,10 @@ start = time.time()
 
 from tensorflow.keras.callbacks import EarlyStopping
 earlyStopping = EarlyStopping(monitor='val_loss', mode='min',
-                              patience=10,
+                              patience=50,
                               restore_best_weights=True,
                               verbose=1)
-hist = model.fit(x_train, y_train, epochs=15000, batch_size=15, validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
+hist = model.fit(x_train, y_train, epochs=15000, batch_size=20, validation_split=0.25, callbacks=[earlyStopping] , verbose=1)
 end = time.time()
 
 #4. 평가, 예측
