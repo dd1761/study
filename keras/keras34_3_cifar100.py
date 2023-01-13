@@ -84,3 +84,21 @@ result = model.evaluate(x_test, y_test)
 print('loss : ', result[0])
 print('acc : ', result[1])
 
+"""
+model = Sequential()
+model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (30, 30, 64)
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (29, 29, 64)  
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(filters=16, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
+model.add(Flatten())
+model.add(Dense(32, activation='relu'))             #input_shape = (40000)
+                                                    # (60000, 40000)    (batch_size, input_dim)
+                                                    
+epochs=100, batch_size=32
+model.add(Dense(100, activation='softmax'))
+loss :  2.521529197692871
+acc :  0.3589000105857849    
+"""
