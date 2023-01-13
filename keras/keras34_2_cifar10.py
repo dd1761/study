@@ -17,6 +17,9 @@ print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)
 print(np.unique(y_train, return_counts=True))   
 # (array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=uint8), array([5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000],dtype=int64))
 
+x_train = x_train / 255
+x_test = x_test / 255
+
 #2. 모델구성
 model = Sequential()
 model.add(Conv2D(filters=200, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
