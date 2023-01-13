@@ -1,7 +1,7 @@
 from tensorflow.keras.datasets import cifar10, cifar100
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Dense, Flatten
+from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import datetime
@@ -10,6 +10,9 @@ import datetime
 
 #1. 데이터
 (x_train, y_train), (x_test, y_test) = cifar100.load_data()
+
+x_train = x_train / 255
+x_test = x_test / 255
 
 print(x_train.shape, y_train.shape) # (50000, 32, 32, 3) (50000, 1)
 print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)
@@ -35,8 +38,11 @@ print(np.unique(y_train, return_counts=True))
 #2. 모델구성
 model = Sequential()
 model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (30, 30, 64)
+model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (29, 29, 64)  
+model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=16, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))             #input_shape = (40000)

@@ -1,7 +1,7 @@
 from tensorflow.keras.datasets import cifar10, cifar100
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Dense, Flatten, Dropout
+from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 import datetime
@@ -19,8 +19,10 @@ print(np.unique(y_train, return_counts=True))
 
 #2. 모델구성
 model = Sequential()
-model.add(Conv2D(filters=200, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128) 
+model.add(Conv2D(filters=200, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(MaxPooling2D((2, 2))) 
 model.add(Conv2D(filters=100, kernel_size=(3,3)))    # (30, 30, 64)  
+model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=70, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
 model.add(Flatten())
 model.add(Dense(64, activation='relu'))             #input_shape = (40000)
@@ -61,3 +63,10 @@ model.fit(x_train, y_train, epochs=100, batch_size=32,
 result = model.evaluate(x_test, y_test)
 print('loss : ', result[0])
 print('acc : ', result[1])
+
+
+"""
+loss :  1.204951524734497
+acc :  0.5916000008583069
+    
+"""
