@@ -101,8 +101,8 @@ model.add(Dense(32, activation='relu'))             #input_shape = (40000)
                                                     
 epochs=100, batch_size=32
 model.add(Dense(100, activation='softmax'))
-loss :  2.521529197692871
-acc :  0.3589000105857849    
+loss :  2.52152919769287
+acc :  0.358900010585784    
 
 
 
