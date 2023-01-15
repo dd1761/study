@@ -28,7 +28,7 @@ model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (26, 26, 64)
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
 model.add(Flatten())
-model.add(Dense(32, activation='relu'))             #input_shape = (40000)
+model.add(Dense(16, activation='relu'))             #input_shape = (40000)
                                                     # (60000, 40000)    (batch_size, input_dim)
 model.add(Dense(10, activation='softmax'))
 
