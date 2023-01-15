@@ -45,7 +45,7 @@ model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (29, 29, 64)  
 model.add(Dropout(0.1))
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(filters=16, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))             #input_shape = (40000)
                                                     # (60000, 40000)    (batch_size, input_dim)
