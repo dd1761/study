@@ -33,7 +33,7 @@ model.add(Dense(64, activation='relu'))             #input_shape = (40000)
 model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=10, mode='min',
                               restore_best_weights=True,                        
                               verbose=1 
                               )
@@ -89,4 +89,9 @@ model.add(Dense(10, activation='softmax'))
 loss :  0.959489464759826
 acc :  0.672699987888336
     
+    
+epochs=100, batch_size=32,
+model.add(Dense(10, activation='softmax'))
+loss :  0.986682116985321
+acc :  0.6557999849319458
 """
