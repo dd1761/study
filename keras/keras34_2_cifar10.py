@@ -92,6 +92,6 @@ acc :  0.672699987888336
     
 epochs=100, batch_size=32,
 model.add(Dense(10, activation='softmax'))
-loss :  0.986682116985321
-acc :  0.6557999849319458
+loss :  0.98668211698532
+acc :  0.655799984931945
 """
