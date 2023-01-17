@@ -87,8 +87,8 @@ model.add(Dense(32, activation='relu'))             #input_shape = (40000)
 model.add(Dense(10, activation='softmax'))
 
 
-loss :  0.113490015268325
-acc :  0.969299972057342
+loss :  0.1134900152683258
+acc :  0.9692999720573425
 
 
 '''
