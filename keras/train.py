@@ -17,7 +17,7 @@ print(x_test.shape, y_test.shape)
 print(np.unique(y_train, return_counts=True))
 
 model = Sequential()
-model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))
+model.add(Conv2D(filters=64, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))
 model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=64, kernel_size=(2,2)))
 model.add(MaxPooling2D((2, 2)))
