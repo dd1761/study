@@ -65,8 +65,8 @@ model.fit(x_train, y_train, epochs=100, batch_size=32,
 
 
 #4. 평가, 예측
-result = model.evaluate(x_test, y_test)
-print('loss : ', result[0])
+result = model.evaluate(x_test, y_test)   #evaluate는 loss와 metrics를 반환한다.
+print('loss : ', result[0])            
 print('acc : ', result[1])
 
 
