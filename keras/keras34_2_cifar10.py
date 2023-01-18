@@ -39,7 +39,7 @@ es = EarlyStopping(monitor='val_loss', patience=10, mode='min',
                               )
 
 date = datetime.datetime.now()              #날짜를 자동으로 저장하기 위해 datetime을 import함.
-date = date.strftime("%m%d_%H%M")
+date = date.strftime("%m%d_%H%M")           #날짜를 원하는 형식으로 바꿔줌.
 
 filepath = './_save/MCP/'
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
