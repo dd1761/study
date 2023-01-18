@@ -68,6 +68,7 @@ print('loss : ', result[0])
 print('acc : ', result[1])
 
 
+
 """
 loss :  1.204951524734497
 acc :  0.5916000008583069
