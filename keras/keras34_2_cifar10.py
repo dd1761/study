@@ -38,7 +38,7 @@ es = EarlyStopping(monitor='val_loss', patience=10, mode='min',
                               verbose=1 
                               )
 
-date = datetime.datetime.now()
+date = datetime.datetime.now()              #날짜를 자동으로 저장하기 위해 datetime을 import함.
 date = date.strftime("%m%d_%H%M")
 
 filepath = './_save/MCP/'
@@ -63,8 +63,8 @@ model.fit(x_train, y_train, epochs=100, batch_size=32,
 
 
 #4. 평가, 예측
-result = model.evaluate(x_test, y_test)
-print('loss : ', result[0])
+result = model.evaluate(x_test, y_test)     
+print('loss : ', result[0])   
 print('acc : ', result[1])
 
 
