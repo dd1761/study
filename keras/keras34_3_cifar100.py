@@ -11,13 +11,13 @@ import datetime
 #1. 데이터
 (x_train, y_train), (x_test, y_test) = cifar100.load_data()
 
-x_train = x_train / 255
-x_test = x_test / 255
+x_train = x_train / 255 # 0~1사이의 값으로 바꿔줌
+x_test = x_test / 255  # 0~1사이의 값으로 바꿔줌
 
-print(x_train.shape, y_train.shape) # (50000, 32, 32, 3) (50000, 1)
-print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)
+print(x_train.shape, y_train.shape) # (50000, 32, 32, 3) (50000, 1)   
+print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)  
 
-print(np.unique(y_train, return_counts=True))   
+print(np.unique(y_train, return_counts=True))     
 
 '''
 # (array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
