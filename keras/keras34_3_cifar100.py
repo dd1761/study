@@ -50,7 +50,7 @@ model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 2
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))             #input_shape = (40000)
                                                     # (60000, 40000)    (batch_size, input_dim)
-model.add(Dense(100, activation='softmax'))
+model.add(Dense(100, activation='softmax'))     
 
 #3. 컴파일, 훈련
 es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
