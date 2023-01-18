@@ -8,18 +8,18 @@ import datetime
 
 (x_train, y_train), (x_test, y_test) = cifar100.load_data()
 
-x_train = x_train / 255
-x_test = x_test / 255
+x_train = x_train / 255 # 0~1사이의 값으로 바꿔줌
+x_test = x_test / 255   # 0~1사이의 값으로 바꿔줌
 
-print(x_train.shape, y_train.shape)
+print(x_train.shape, y_train.shape)     
 print(x_test.shape, y_test.shape)
 
 print(np.unique(y_train, return_counts=True))
 
-model = Sequential()
-model.add(Conv2D(filters=64, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))
-model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(filters=64, kernel_size=(2,2)))
+model = Sequential()            
+model.add(Conv2D(filters=64, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))    
+model.add(MaxPooling2D((2, 2)))             
+model.add(Conv2D(filters=64, kernel_size=(2,2)))    
 model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=32, kernel_size=(2,2)))
 model.add(MaxPooling2D((2, 2)))
