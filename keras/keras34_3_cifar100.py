@@ -37,6 +37,7 @@ print(np.unique(y_train, return_counts=True))
 
 #2. 모델구성
 model = Sequential()
+
 model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
 model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (30, 30, 64)
@@ -52,7 +53,7 @@ model.add(Dense(32, activation='relu'))             #input_shape = (40000)
 model.add(Dense(100, activation='softmax'))
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=10, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
                               restore_best_weights=True,                        
                               verbose=1 
                               )
@@ -101,8 +102,8 @@ model.add(Dense(32, activation='relu'))             #input_shape = (40000)
                                                     
 epochs=100, batch_size=32
 model.add(Dense(100, activation='softmax'))
-loss :  2.521529197692871
-acc :  0.3589000105857849    
+loss :  2.52152919769287
+acc :  0.358900010585784    
 
 
 
@@ -126,12 +127,5 @@ model.add(Dense(100, activation='softmax'))
 loss :  2.521529197692871
 acc :  0.3589000105857849   
 loss :  2.428819179534912
-acc :  0.37770000100135803
-
-
-
-epochs=100, batch_size=32
-model.add(Dense(100, activation='softmax'))
-loss :  2.3641302585601807
-acc :  0.3874000012874603
+acc :  0.3777000010013580
 """

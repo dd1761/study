@@ -70,8 +70,8 @@ print('acc : ', result[1])
 
 
 """
-loss :  1.204951524734497
-acc :  0.5916000008583069
+loss :  1.20495152473449
+acc :  0.591600000858306
 
 
 
@@ -87,12 +87,12 @@ model.add(Dense(64, activation='relu'))             #input_shape = (40000)
                                                     
 epochs=100, batch_size=32,
 model.add(Dense(10, activation='softmax'))
-loss :  0.959489464759826
-acc :  0.672699987888336
+loss :  0.95948946475982
+acc :  0.67269998788833
     
     
 epochs=100, batch_size=32,
 model.add(Dense(10, activation='softmax'))
-loss :  0.986682116985321
-acc :  0.6557999849319458
+loss :  0.98668211698532
+acc :  0.655799984931945
 """
