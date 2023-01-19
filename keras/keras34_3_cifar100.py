@@ -38,7 +38,7 @@ print(np.unique(y_train, return_counts=True))
 #2. 모델구성
 model = Sequential()
 
-model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
 model.add(MaxPooling2D((2, 2)))                       
 model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (30, 30, 64)    flatten -> 57600
 model.add(Dropout(0.1))
