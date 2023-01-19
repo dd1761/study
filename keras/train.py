@@ -21,7 +21,7 @@ model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activa
 model.add(MaxPooling2D((2, 2)))             
 model.add(Conv2D(filters=88, kernel_size=(2,2)))    
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(filters=32, kernel_size=(2,2)))
+model.add(Conv2D(filters=68, kernel_size=(2,2)))
 model.add(MaxPooling2D((2, 2)))
 model.add(Flatten())
 model.add(Dense(64, activation='relu'))
