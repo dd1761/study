@@ -25,7 +25,7 @@ model.add(Conv2D(filters=68, kernel_size=(2,2)))
 model.add(MaxPooling2D((2, 2)))
 model.add(Flatten())
 model.add(Dense(48, activation='relu'))
-model.add(Dense(32, activation='relu'))
+model.add(Dense(28, activation='relu'))
 model.add(Dense(100, activation='softmax'))
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['acc'])
