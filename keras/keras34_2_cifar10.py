@@ -24,7 +24,7 @@ x_test = x_test / 255
 model = Sequential()
 model.add(Conv2D(filters=164, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
 model.add(MaxPooling2D((2, 2))) 
-model.add(Conv2D(filters=100, kernel_size=(3,3)))    # (30, 30, 64)  
+model.add(Conv2D(filters=140, kernel_size=(3,3)))    # (30, 30, 64)  
 model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
 model.add(Flatten())
