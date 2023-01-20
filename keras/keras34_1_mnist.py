@@ -25,7 +25,7 @@ from tensorflow.keras.layers import Conv2D, Dense, Flatten
 model = Sequential()
 model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(28, 28, 1), activation='relu'))    # (27, 27, 128)
 model.add(Conv2D(filters=104, kernel_size=(2,2)))    # (26, 26, 64)
-model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
+model.add(Conv2D(filters=84, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))             #input_shape = (40000)
