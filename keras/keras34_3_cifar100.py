@@ -75,7 +75,7 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['acc'])  #metrics에 accuracy가 들어갔기 때문에 loss와 accuracy값이 나옴.
-model.fit(x_train, y_train, epochs=100, batch_size=32,
+model.fit(x_train, y_train, epochs=200, batch_size=32,
           callbacks=[es, mcp],
           verbose=1,
           validation_split=0.2,
