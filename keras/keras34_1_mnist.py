@@ -35,7 +35,7 @@ model.add(Dense(10, activation='softmax'))
 
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',   #val_loss가 20번이상 향상되지 않으면 멈추겠다. mode는 min이기 때문에 loss가 줄어들지 않으면 멈추겠다.
                               restore_best_weights=True,                        
                               verbose=1 
                               )
