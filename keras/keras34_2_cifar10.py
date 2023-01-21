@@ -22,7 +22,7 @@ x_test = x_test / 255
 
 #2. 모델구성
 model = Sequential()
-model.add(Conv2D(filters=164, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
 model.add(MaxPooling2D((2, 2))) 
 model.add(Conv2D(filters=140, kernel_size=(3,3)))    # (30, 30, 64)  
 model.add(MaxPooling2D((2, 2)))
