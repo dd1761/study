@@ -53,7 +53,7 @@ model.add(Dense(24, activation='relu'))             #input_shape = (40000)
 model.add(Dense(100, activation='softmax'))     
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',   #patience=20, mode='min'  20번까지는 봐주겠다. 21번째부터는 봐주지 않겠다.
                               restore_best_weights=True,                        
                               verbose=1 
                               )
