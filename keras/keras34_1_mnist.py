@@ -36,7 +36,7 @@ model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일, 훈련
 es = EarlyStopping(monitor='val_loss', patience=20, mode='min',   #val_loss가 20번이상 향상되지 않으면 멈추겠다. mode는 min이기 때문에 loss가 줄어들지 않으면 멈추겠다.
-                              restore_best_weights=True,                        
+                              restore_best_weights=True,          
                               verbose=1 
                               )
 
@@ -57,7 +57,7 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['acc'])  #metrics에 accuracy가 들어갔기 때문에 loss와 accuracy값이 나옴.
-model.fit(x_train, y_train, epochs=100, batch_size=32,
+model.fit(x_train, y_train, epochs=100, batch_size=32,    #batch_size는 default가 32이다.
           callbacks=[es, mcp],
           verbose=1,
           validation_split=0.2,
