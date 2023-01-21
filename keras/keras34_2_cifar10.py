@@ -33,7 +33,7 @@ model.add(Dense(64, activation='relu'))             #input_shape = (40000)
 model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=10, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=10, mode='min',   #val_loss가 10번이상 향상되지 않으면 멈춤.
                               restore_best_weights=True,                        
                               verbose=1 
                               )
