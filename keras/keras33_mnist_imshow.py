@@ -10,5 +10,5 @@ print(x_train[1000])
 print(y_train[1000])       #5
 
 import matplotlib.pyplot as plt
-plt.imshow(x_train[1000], 'gray')
+plt.imshow(x_train[1000], 'gray')       #imshow는 이미지를 보여주는 함수.  x_train[1000]을 보여주는데 흑백으로 보여줘라.
 plt.show()
