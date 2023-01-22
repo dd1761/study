@@ -43,7 +43,7 @@ model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=100, kernel_size=(2,2)))    # (30, 30, 64)    flatten -> 57600
 model.add(Dropout(0.1))
 model.add(MaxPooling2D((2, 2)))                      
-model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (29, 29, 32)    flatten -> 26912
+model.add(Conv2D(filters=80, kernel_size=(2,2)))    # (29, 29, 32)    flatten -> 26912
 model.add(Dropout(0.1))
 model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=44, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
