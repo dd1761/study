@@ -65,7 +65,7 @@ filepath = './_save/MCP/'
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
  
 
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,   #mode='auto'는 자동으로 min, max를 구분해줌.
                       save_best_only=True,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
                       filepath = filepath + 'k34_03_' + date + '_' + filename   #k34_03_1015_1530_0001-1.0000.hdf5
