@@ -68,7 +68,7 @@ filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자�
 mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
                       save_best_only=True,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
-                      filepath = filepath + 'k34_03_' + date + '_' + filename
+                      filepath = filepath + 'k34_03_' + date + '_' + filename   #k34_03_1015_1530_0001-1.0000.hdf5
                       )
 
 
