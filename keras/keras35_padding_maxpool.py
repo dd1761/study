@@ -28,12 +28,13 @@ model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(28, 28, 1),
                  activation='relu'))    # (28, 28, 128)
 model.add(MaxPooling2D())               # (14, 14, 128)
 model.add(Conv2D(filters=64, kernel_size=(2,2), padding='same'))    # (26, 26, 64)
-model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
-model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
+model.add(MaxPooling2D())               # (13, 13, 64)
+model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (12, 12, 64)
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (11, 11, 32)
 model.add(Flatten())
-model.add(Dense(32, activation='relu'))             #input_shape = (40000)
-                                                    # (60000, 40000)    (batch_size, input_dim)
-model.add(Dense(10, activation='softmax'))
+model.add(Dense(32, activation='relu'))             # (60000, 32)
+                                                    
+model.add(Dense(10, activation='softmax'))          # (60000, 10)
 
 # model.summary()
 
@@ -132,6 +133,24 @@ model.add(Dense(10, activation='softmax'))
 
 loss :  0.08415079116821289
 acc :  0.9772999882698059
+
+
+model = Sequential()
+model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(28, 28, 1), 
+                 padding='same',        # valid
+                 activation='relu'))    # (28, 28, 128)
+model.add(MaxPooling2D())               # (14, 14, 128)
+model.add(Conv2D(filters=64, kernel_size=(2,2), padding='same'))    # (26, 26, 64)
+model.add(MaxPooling2D())               # (13, 13, 64)
+model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (12, 12, 64)
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (11, 11, 32)
+model.add(Flatten())
+model.add(Dense(32, activation='relu'))             # (60000, 32)
+                                                    
+model.add(Dense(10, activation='softmax'))          # (60000, 10)
+
+loss :  0.06506748497486115
+acc :  0.9811000227928162
 '''
 
 
