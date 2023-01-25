@@ -19,13 +19,14 @@ print(x_test.shape, y_test.shape)   # (10000, 28, 28, 1) (10000,)
 print(np.unique(y_train, return_counts=True))    # (array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=uint8), array([5923, 6742, 5958, 6131, 5842, 5421, 5918, 6265, 5851, 5949],dtype=int64))
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Dense, Flatten
+from tensorflow.keras.layers import Conv2D, Dense, Flatten,  MaxPooling2D
 
 #2. 모델구성
 model = Sequential()
 model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(28, 28, 1), 
                  padding='same',        # valid
-                 activation='relu'))    # (27, 27, 128)
+                 activation='relu'))    # (28, 28, 128)
+model.add(MaxPooling2D())               # (14, 14, 128)
 model.add(Conv2D(filters=64, kernel_size=(2,2), padding='same'))    # (26, 26, 64)
 model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
@@ -34,7 +35,7 @@ model.add(Dense(32, activation='relu'))             #input_shape = (40000)
                                                     # (60000, 40000)    (batch_size, input_dim)
 model.add(Dense(10, activation='softmax'))
 
-model.summary()
+# model.summary()
 
 
 
@@ -112,6 +113,25 @@ model.add(Dense(10, activation='softmax'))
 
 loss :  0.09316076338291168
 acc :  0.9742000102996826
+
+
+#maxpooling 적용시
+
+model = Sequential()
+model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(28, 28, 1), 
+                 padding='same',        # valid
+                 activation='relu'))    # (28, 28, 128)
+model.add(MaxPooling2D())               # (14, 14, 128)
+model.add(Conv2D(filters=64, kernel_size=(2,2), padding='same'))    # (26, 26, 64)
+model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
+model.add(Flatten())
+model.add(Dense(32, activation='relu'))             #input_shape = (40000)
+                                                    # (60000, 40000)    (batch_size, input_dim)
+model.add(Dense(10, activation='softmax'))
+
+loss :  0.08415079116821289
+acc :  0.9772999882698059
 '''
 
 
