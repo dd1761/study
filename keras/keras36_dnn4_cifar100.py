@@ -40,9 +40,10 @@ print(np.unique(y_train, return_counts=True))
 
 #2. 모델구성
 model = Sequential()
-model.add(Dense(128, activation='relu', input_shape=(32 * 32 * 3, )))   # (27, 27, 128) # 28 * 28 = 784
+model.add(Dense(512, activation='relu', input_shape=(32 * 32 * 3, )))   # (27, 27, 128) # 28 * 28 = 784
 model.add(Dropout(0.3))
-model.add(Dense(64, activation='relu'))             # (60000, 32)
+model.add(Dense(512, activation='relu'))             # (60000, 32)
+model.add(Dropout(0.3))
 model.add(Dense(32, activation='linear'))             # (60000, 32)                                                    
 model.add(Dense(100, activation='softmax'))          # (60000, 10) 
 
@@ -82,5 +83,14 @@ print('loss : ', result[0])
 print('acc : ', result[1])
 
 """
+model.add(Dense(512, activation='relu', input_shape=(32 * 32 * 3, )))   # (27, 27, 128) # 28 * 28 = 784
+model.add(Dropout(0.3))
+model.add(Dense(512, activation='relu'))             # (60000, 32)
+model.add(Dropout(0.3))
+model.add(Dense(32, activation='linear'))             # (60000, 32)                                                    
+model.add(Dense(100, activation='softmax'))          # (60000, 10) 
+
+loss :  3.8090145587921143
+acc :  0.11909999698400497
 
 """
