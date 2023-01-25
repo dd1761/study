@@ -1,27 +1,39 @@
-#[과제, 실습]
-# R2 0.62 이상
-
-from sklearn.datasets import load_diabetes
+from sklearn.datasets import load_iris  # 꽃잎의 길이와 넓이, 줄기의 길이를 가지고 어떤 꽃인지를 맞추는 알고리즘
 from tensorflow.keras.models import Sequential, Model,load_model
-from tensorflow.keras.layers import Dense, Input, Dropout, Conv2D, Flatten
-import numpy as np
+from tensorflow.keras.layers import Dense,Input, Dropout, Conv2D, MaxPooling2D, Flatten
 from sklearn.model_selection import train_test_split
+from tensorflow.keras.utils import to_categorical   # one hot encoding을 사용하기 위해 to_categorical을 가지고 와 사용한다.
+from sklearn.metrics import accuracy_score
+import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
-from tensorflow.keras.callbacks import EarlyStopping
 
-#1 데이터
-datasets = load_diabetes()
+#1. 데이터
+datasets = load_iris()
+# print(datasets.DESCR)   #input=4 output=1       #pandas .describe() /   .info()
+# print(datasets.feature_names)                   #pandas .columns
+
+
 x = datasets.data
-y = datasets.target
+y = datasets['target']
 
 
-x_train, x_test, y_train, y_test = train_test_split(    
-    x, y,
-    train_size=0.8,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
-    shuffle=True,                                       #shuffle=True면 랜덤데이터를 사용. shuffle=False면 순차적인 데이터를 사용.
-    random_state=1234                                    #random_state는 123번에 저장되어있는 랜덤데이터를 사용. 
-                                                        #random_state를 사용하지 않으면 프로그램을 실행할 때마다 값이 달라진다.
+
+y = to_categorical(y)    # y의 값으로 one-hot encoding을 진행하여 y_ca값을 만듬.
+# print(y_ca)
+# print(x)
+# print(y)
+# print(x.shape)  # (150, 4)
+# print(y.shape)  # (150,)
+# print(y.shape)  # (150, 3)
+
+x_train, x_test, y_train, y_test = train_test_split(
+    x,y,
+    shuffle=True,   # False의 문제점은 하나의 데이터가 몰려있어서 예측할 때에 제대로 된 성능이 나오지 않는다.
+    random_state=1234,   # 분류에서 특정 데이터의 값을 배제하여 계산할 수 있기 때문에 데이터의 균형자체가 무너질 수 있다.
+    test_size=0.2,
+    stratify=y  # 데이터의 비율을 맞춰줌. ex) 0이 90프로와 1이 10프로인 데이터에서 썼을 때 테스트 사이즈의 비율에서 0과 1의 비율이 5대5정도로 맞게 비율을 맞춰줌.
+                # y형 데이터는 분류 데이터에서만 사용가능. ex) 보스턴이나 캘리포니아 데이터에서는 사용불가
 )
 
 scaler = MinMaxScaler()            
@@ -31,41 +43,33 @@ scaler = MinMaxScaler()
 x_train = scaler.fit_transform(x_train)       #위에 scaler.fit이랑 transform과정을 한번에 적용한 것.
 x_test = scaler.transform(x_test)
 
-print(x_train.shape, x_test.shape)            #(353, 10) (89, 10))  
+# print('y : ', y)
+# print('y.shape : ', y.shape)  
+# print('y_train : ',y_train)
+# print('y_test : ',y_test)
 
-x_train = x_train.reshape(353, 10, 1, 1)         #x_train을 4차원으로 변환   
-x_test = x_test.reshape(89, 10, 1, 1)            #x_test을 4차원으로 변환                   
+print(x_train.shape, x_test.shape) # (120, 4) (30, 4)
 
+x_train = x_train.reshape(120, 2, 2, 1)
+x_test = x_test.reshape(30, 2, 2, 1)
+
+
+#2. 모델구성
+#2. 모델구성
 model = Sequential()
-model.add(Conv2D(64, (2,1), input_shape=(10,1,1)))
-model.add(Dropout(0.5)) 
+model.add(Conv2D(64, (2,2), input_shape=(2,2,1)))
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='relu'))
-model.add(Dense(4, activation='linear'))
-model.add(Dense(1, activation='linear'))
+model.add(Dense(3, activation='softmax'))       # 다중분류에서는 softmax, y의 클래스의 수가 3이므로 Dense(3)으로 만들어준다.
+                                                # softmax의 y클래스의 확률은 총 합 100%가 나와야 한다.
+                                                # 다중분류에서 마지막 노드는 무조건 softmax를 사용.
+                                                # 수치화를 하였을 때 조심해야 하는 것은 0,1,2 를 각각 동등한 관계로 만들어주어야 한다. 만들어주지 않으면 1과 2의 가치는 2배차이
+                                                # one_hot-encoding 원핫인코딩
+                                                # y값의 개수만큼 colum이 늘어남.
 
-#2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
-# input1 = Input(shape=(10,))                     
-# dense1 = Dense(64, activation='relu')(input1) 
-# drop1 = Dropout(0.5)(dense1)   
-# dense2 = Dense(56, activation='relu')(drop1)
-# drop2 = Dropout(0.3)(dense2)                              
-# dense3 = Dense(52, activation='sigmoid')(drop2)
-# drop3 = Dropout(0.2)(dense3)
-# dense4 = Dense(40, activation='relu')(drop3)
-# dense5 = Dense(28, activation='relu')(dense4)
-# dense6 = Dense(16, activation='relu')(dense5)
-# dense7 = Dense(12, activation='relu')(dense6)
-# dense8 = Dense(8, activation='relu')(dense7)
-# dense9 = Dense(4, activation='linear')(dense8)
-# output1 = Dense(1, activation='linear')(dense9)
-# model = Model(inputs=input1, outputs=output1)
-# model.summary()
-
-
-
+                                                
 #3. 컴파일, 훈련
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
@@ -90,7 +94,7 @@ filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자�
 mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
                       save_best_only=True,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
-                      filepath = filepath + 'k39_03_' + date + '_' + filename
+                      filepath = filepath + 'k39_07_' + date + '_' + filename
                       )
 
 
@@ -126,6 +130,9 @@ from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포�
 r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
 print('mse : ', mse)
 print("R2스코어  : ", r2)
+
+
+
 
 
 

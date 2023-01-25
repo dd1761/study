@@ -1,27 +1,29 @@
-#[과제, 실습]
-# R2 0.62 이상
-
-from sklearn.datasets import load_diabetes
+from sklearn.datasets import load_breast_cancer
 from tensorflow.keras.models import Sequential, Model,load_model
-from tensorflow.keras.layers import Dense, Input, Dropout, Conv2D, Flatten
-import numpy as np
+from tensorflow.keras.layers import Dense,Input, Dropout, Conv2D, Flatten, MaxPool2D
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
-from tensorflow.keras.callbacks import EarlyStopping
+import numpy as np
+# 23-01-09
 
-#1 데이터
-datasets = load_diabetes()
-x = datasets.data
-y = datasets.target
+#1. 데이터
+datasets = load_breast_cancer()
+
+# print(datasets)
+# print(datasets.DESCR)
+# print(datasets.feature_names)
 
 
-x_train, x_test, y_train, y_test = train_test_split(    
-    x, y,
-    train_size=0.8,                                      #train데이터와 test데이터의 비율을 7:3으로 설정
-    shuffle=True,                                       #shuffle=True면 랜덤데이터를 사용. shuffle=False면 순차적인 데이터를 사용.
-    random_state=1234                                    #random_state는 123번에 저장되어있는 랜덤데이터를 사용. 
-                                                        #random_state를 사용하지 않으면 프로그램을 실행할 때마다 값이 달라진다.
+x = datasets['data']    
+y = datasets['target']
+# print(x.shape, y.shape) # (569, 30), (569,)
+
+x_train, x_test, y_train, y_test = train_test_split(
+    x,y,
+    test_size=0.2,
+    shuffle=True,
+    random_state=333
 )
 
 scaler = MinMaxScaler()            
@@ -31,46 +33,28 @@ scaler = MinMaxScaler()
 x_train = scaler.fit_transform(x_train)       #위에 scaler.fit이랑 transform과정을 한번에 적용한 것.
 x_test = scaler.transform(x_test)
 
-print(x_train.shape, x_test.shape)            #(353, 10) (89, 10))  
+print(x_train.shape, x_test.shape)  # (455, 30) (114, 30
 
-x_train = x_train.reshape(353, 10, 1, 1)         #x_train을 4차원으로 변환   
-x_test = x_test.reshape(89, 10, 1, 1)            #x_test을 4차원으로 변환                   
+x_train = x_train.reshape(455, 5 ,3, 2)
+x_test = x_test.reshape(114, 5 ,3, 2)
 
+#2. 모델구성
+
+#2. 모델구성
 model = Sequential()
-model.add(Conv2D(64, (2,1), input_shape=(10,1,1)))
-model.add(Dropout(0.5)) 
+model.add(Conv2D(64, (2,2), input_shape=(5,3,2)))
+model.add(Dropout(0.2)) 
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='relu'))
-model.add(Dense(4, activation='linear'))
-model.add(Dense(1, activation='linear'))
+model.add(Dense(1, activation='sigmoid'))  # 0과 1사이의 값만 뽑아야 하기 때문에 activation을 sigmoid를 사용한다.
 
-#2. 모델구성(함수형)                                    #함수형의 장점은 순서대로 실행하는 것이 아닌 input부분만 수정하면 순서상관없이 실행가능하다.
-# input1 = Input(shape=(10,))                     
-# dense1 = Dense(64, activation='relu')(input1) 
-# drop1 = Dropout(0.5)(dense1)   
-# dense2 = Dense(56, activation='relu')(drop1)
-# drop2 = Dropout(0.3)(dense2)                              
-# dense3 = Dense(52, activation='sigmoid')(drop2)
-# drop3 = Dropout(0.2)(dense3)
-# dense4 = Dense(40, activation='relu')(drop3)
-# dense5 = Dense(28, activation='relu')(dense4)
-# dense6 = Dense(16, activation='relu')(dense5)
-# dense7 = Dense(12, activation='relu')(dense6)
-# dense8 = Dense(8, activation='relu')(dense7)
-# dense9 = Dense(4, activation='linear')(dense8)
-# output1 = Dense(1, activation='linear')(dense9)
-# model = Model(inputs=input1, outputs=output1)
-# model.summary()
-
-
-
-#3. 컴파일, 훈련
+##3. 컴파일, 훈련
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=10, mode='min',
                               restore_best_weights=True,                        
                               verbose=1 
                               )
@@ -90,7 +74,7 @@ filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자�
 mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
                       save_best_only=True,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
-                      filepath = filepath + 'k39_03_' + date + '_' + filename
+                      filepath = filepath + 'k39_06_' + date + '_' + filename
                       )
 
 
@@ -126,7 +110,4 @@ from sklearn.metrics import  r2_score        # r2는 수식이 존재해 임포�
 r2 = r2_score(y_test, y_predict)        # R2스코어는 높을 수록 평가가 좋다. RMSE의 값은 낮을 수록 평가가 좋다.
 print('mse : ', mse)
 print("R2스코어  : ", r2)
-
-
-
 
