@@ -22,18 +22,18 @@ x_test = x_test / 255
 
 #2. 모델구성
 model = Sequential()
-model.add(Conv2D(filters=64, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
 model.add(MaxPooling2D((2, 2))) 
-model.add(Conv2D(filters=100, kernel_size=(3,3)))    # (30, 30, 64)  
+model.add(Conv2D(filters=64, kernel_size=(3,3)))    # (30, 30, 64)  
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
 model.add(Flatten())
-model.add(Dense(64, activation='relu'))             #input_shape = (40000)
+model.add(Dense(16, activation='relu'))             #input_shape = (40000)
                                                     # (60000, 40000)    (batch_size, input_dim)
 model.add(Dense(10, activation='softmax'))
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=10, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=10, mode='min',   #val_loss가 10번이상 향상되지 않으면 멈춤.
                               restore_best_weights=True,                        
                               verbose=1 
                               )
@@ -45,17 +45,17 @@ filepath = './_save/MCP/'
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
  
 
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,       #val_loss가 가장 좋은 값이 나올때만 저장하겠다.
                       save_best_only=True,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
-                      filepath = filepath + 'k34_02_' + date + '_' + filename
+                      filepath = filepath + 'k34_02_' + date + '_' + filename   #filepath에 저장할 경로와 파일명을 지정해줌.
                       )
 
 
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['acc'])  #metrics에 accuracy가 들어갔기 때문에 loss와 accuracy값이 나옴.
-model.fit(x_train, y_train, epochs=100, batch_size=32,
+model.fit(x_train, y_train, epochs=200, batch_size=32,
           callbacks=[es, mcp],
           verbose=1,
           validation_split=0.2,

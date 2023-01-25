@@ -24,8 +24,8 @@ from tensorflow.keras.layers import Conv2D, Dense, Flatten
 #2. 모델구성
 model = Sequential()
 model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(28, 28, 1), activation='relu'))    # (27, 27, 128)
-model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (26, 26, 64)
-model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
+model.add(Conv2D(filters=104, kernel_size=(2,2)))    # (26, 26, 64)
+model.add(Conv2D(filters=84, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (25, 25, 64)  flattne -> 40000
 model.add(Flatten())
 model.add(Dense(32, activation='relu'))             #input_shape = (40000)
@@ -35,8 +35,8 @@ model.add(Dense(10, activation='softmax'))
 
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
-                              restore_best_weights=True,                        
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',   #val_loss가 20번이상 향상되지 않으면 멈추겠다. mode는 min이기 때문에 loss가 줄어들지 않으면 멈추겠다.
+                              restore_best_weights=True,          
                               verbose=1 
                               )
 
@@ -47,17 +47,17 @@ filepath = './_save/MCP/'
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
  
 
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,   #val_loss가 가장 좋은 값이 나오면 저장하겠다.
                       save_best_only=True,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
-                      filepath = filepath + 'k34_01_' + date + '_' + filename
+                      filepath = filepath + 'k34_01_' + date + '_' + filename     #filepath에 저장하겠다.
                       )
 
 
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['acc'])  #metrics에 accuracy가 들어갔기 때문에 loss와 accuracy값이 나옴.
-model.fit(x_train, y_train, epochs=100, batch_size=32,
+model.fit(x_train, y_train, epochs=200, batch_size=32,    #batch_size는 default가 32이다.
           callbacks=[es, mcp],
           verbose=1,
           validation_split=0.2,

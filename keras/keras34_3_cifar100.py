@@ -46,14 +46,14 @@ model.add(MaxPooling2D((2, 2)))
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (29, 29, 32)    flatten -> 26912
 model.add(Dropout(0.1))
 model.add(MaxPooling2D((2, 2)))
-model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
+model.add(Conv2D(filters=16, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
 model.add(Flatten())
-model.add(Dense(32, activation='relu'))             #input_shape = (40000)
+model.add(Dense(64, activation='relu'))             #input_shape = (40000)
                                                     # (60000, 40000)    (batch_size, input_dim)
 model.add(Dense(100, activation='softmax'))     
 
 #3. 컴파일, 훈련
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',   #patience=20, mode='min'  20번까지는 봐주겠다. 21번째부터는 봐주지 않겠다.
                               restore_best_weights=True,                        
                               verbose=1 
                               )
@@ -65,17 +65,17 @@ filepath = './_save/MCP/'
 filename = '{epoch:04d}-{val_loss:.4f}.hdf5'        #epoch:04는 숫자 네자리까지  ex) 37번의 값이 제일 좋으면 0037 val_loss는 소수점 4번째 자리까지 나오게 됨.
  
 
-mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
+mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,   #mode='auto'는 자동으로 min, max를 구분해줌.
                       save_best_only=True,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
-                      filepath = filepath + 'k34_03_' + date + '_' + filename
+                      filepath = filepath + 'k34_03_' + date + '_' + filename   #k34_03_1015_1530_0001-1.0000.hdf5
                       )
 
 
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam',
               metrics=['acc'])  #metrics에 accuracy가 들어갔기 때문에 loss와 accuracy값이 나옴.
-model.fit(x_train, y_train, epochs=100, batch_size=32,
+model.fit(x_train, y_train, epochs=200, batch_size=32,
           callbacks=[es, mcp],
           verbose=1,
           validation_split=0.2,
