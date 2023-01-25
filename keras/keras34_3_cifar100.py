@@ -38,9 +38,9 @@ print(np.unique(y_train, return_counts=True))
 #2. 모델구성
 model = Sequential()
 
-model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(Conv2D(filters=128, kernel_size=(3,3), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
 model.add(MaxPooling2D((2, 2)))                       
-model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (30, 30, 64)    flatten -> 57600
+model.add(Conv2D(filters=64, kernel_size=(3,3)))    # (30, 30, 64)    flatten -> 57600
 model.add(Dropout(0.1))
 model.add(MaxPooling2D((2, 2)))                      
 model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (29, 29, 32)    flatten -> 26912
@@ -128,4 +128,21 @@ loss :  2.521529197692871
 acc :  0.3589000105857849   
 loss :  2.428819179534912
 acc :  0.3777000010013580
+
+model.add(Conv2D(filters=128, kernel_size=(2,2), input_shape=(32, 32, 3), activation='relu'))    # (31, 31, 128)
+model.add(MaxPooling2D((2, 2)))                       
+model.add(Conv2D(filters=64, kernel_size=(2,2)))    # (30, 30, 64)    flatten -> 57600
+model.add(Dropout(0.1))
+model.add(MaxPooling2D((2, 2)))                      
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (29, 29, 32)    flatten -> 26912
+model.add(Dropout(0.1))
+model.add(MaxPooling2D((2, 2)))
+model.add(Conv2D(filters=32, kernel_size=(2,2)))    # (28, 28, 32)  flatten -> 25088
+model.add(Flatten())
+model.add(Dense(32, activation='relu'))             #input_shape = (40000)
+                                                    # (60000, 40000)    (batch_size, input_dim)
+model.add(Dense(100, activation='softmax'))  
+
+loss :  2.3797824382781982
+acc :  0.3912999927997589
 """
