@@ -103,7 +103,7 @@ model.add(Dense(1, activation='linear'))
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-es = EarlyStopping(monitor='val_loss', patience=20, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=5, mode='min',
                               restore_best_weights=True,                        
                               verbose=1 
                               )
@@ -171,8 +171,8 @@ print("R2스코어  : ", r2)
 
 # submission.to_csv(path + 'submission_01050251.csv')
 
-# # CPU 걸린시간 : 
-# # GPU 걸린시간 :
+# CPU 걸린시간 : 
+# GPU 걸린시간 :
 
 
 '''
