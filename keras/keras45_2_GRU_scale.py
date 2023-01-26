@@ -20,6 +20,31 @@ x = x.reshape(13,3,1)
 model = Sequential()
 model.add(GRU(units=64, input_shape=(3,1), activation='relu'))      # 3,1 => 3개씩 잘라서 1개씩 예측
 model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(22, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(22, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(22, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(22, activation='relu'))
+model.add(Dense(16, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(32, activation='relu'))
 model.add(Dense(22, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='linear'))
@@ -27,7 +52,7 @@ model.add(Dense(1))
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
-es = EarlyStopping(monitor='val_loss', patience=200, mode='min',
+es = EarlyStopping(monitor='val_loss', patience=300, mode='min',
                               restore_best_weights=True,                        
                               verbose=1 
                               )
@@ -41,3 +66,9 @@ print('loss : ', loss)
 y_pred = np.array([50, 60, 70]).reshape(1,3,1)
 result = model.predict(y_pred)
 print('[50,60,70]의 결과 : ', result)
+
+
+
+
+
+

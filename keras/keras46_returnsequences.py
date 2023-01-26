@@ -18,31 +18,16 @@ x = x.reshape(13,3,1)
 #2. 모델구성
 
 model = Sequential()
-model.add(LSTM(units=64, input_shape=(3,1), activation='relu'))      # 3,1 => 3개씩 잘라서 1개씩 예측
-
-model.add(Dense(32, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(22, activation='relu'))
-model.add(Dense(16, activation='relu'))
+model.add(LSTM(units=64, input_shape=(3,1), return_sequences=True))             # (N, 64)     # 3,1 => 3개씩 잘라서 1개씩 예측  
+                                                # return_sequences=True : LSTM의 출력을 다음 레이어에 전달
+model.add(LSTM(32, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(22, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='linear'))
 model.add(Dense(1))
+
+model.summary()
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
@@ -57,8 +42,10 @@ model.fit(x, y, epochs=2000, batch_size=1, callbacks=[es], validation_split=0.2)
 loss = model.evaluate(x, y)
 print('loss : ', loss)
 
-y_pred = np.array([50, 60, 70]).reshape(1,3,1)
-result = model.predict(y_pred)
+# y_pred = np.array([50, 60, 70]).reshape(1,3,1)
+x_pred = x_predict.reshape(1,3,1)
+# result = model.predict(y_pred)
+result = model.predict(x_pred)
 print('[50,60,70]의 결과 : ', result)
 
 
