@@ -32,7 +32,7 @@ model.add(LSTM(64, activation='relu', input_shape=(4,1)))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(22, activation='relu'))
 model.add(Dense(16, activation='relu'))
-model.add(Dense(8, activation='linear'))
+model.add(Dense(8, activation='relu'))
 model.add(Dense(5, activation='linear'))
 model.add(Dense(1))
 
