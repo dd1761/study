@@ -33,7 +33,7 @@ model.add(Dense(32, activation='relu'))
 model.add(Dense(22, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='relu'))
-model.add(Dense(5, activation='linear'))
+model.add(Dense(4, activation='linear'))
 model.add(Dense(1))
 
 
