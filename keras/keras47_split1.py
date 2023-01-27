@@ -37,6 +37,8 @@ model.add(Dense(1))
 
 
 
+
+
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
 es = EarlyStopping(monitor='val_loss', patience=50, mode='min',
