@@ -1,6 +1,7 @@
+# 47-2 train 복붙
 import numpy as np
 from tensorflow.keras.models import Sequential, Model
-from tensorflow.keras.layers import Dense, SimpleRNN, LSTM, Input
+from tensorflow.keras.layers import Dense, SimpleRNN, LSTM, Input, GRU, Bidirectional
 from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 
@@ -52,15 +53,17 @@ print(x_train.shape, y_train.shape) # (72, 4, 1) (72,)
 print(x_test.shape, y_test.shape)     # (24, 4, 1) (24,)
 print(x_predict.shape)                 # (7, 4, 1)
 
+
 #2. 모델구성
 model = Sequential()
-model.add(LSTM(64, activation='relu', input_shape=(4,1)))       # input_shape=(4,1) 4개씩 잘라서 1개씩 예측
+model.add(Bidirectional(LSTM(64), input_shape=(4,1)))       # Bidiirectional 안에 레이어를 넣어줘야 한다. bidirectional은 연산량이 두배가 된다.
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='relu'))
 model.add(Dense(4, activation='linear'))
 model.add(Dense(1))
 
+model.summary()
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam')
@@ -78,18 +81,19 @@ print('loss : ', loss)
 # y_pred = np.array([100,101,102,103,104,105,106]).reshape(1,8,1)
 result = model.predict(x_predict)
 # result = model.predict(x_predict)
-print('[96-105]의 결과 : ', result)
+print('[96-106]의 결과 : ', result)
+
 
 
 '''
-[96-105]의 결과 :  
- [[ 99.99471 ]
- [100.9943  ]
- [101.99386 ]
- [102.993416]
- [103.99295 ]
- [104.99245 ]
- [105.99194 ]]
-
+loss :  0.0033910085912793875
+[96-106]의 결과 :  
+    [[ 99.81863]
+    [100.71563]
+    [101.58757]
+    [102.43241]
+    [103.24836]
+    [104.03393]
+    [104.788  ]]
 
 '''
