@@ -18,7 +18,7 @@ x1_datasets = np.array([range(100), range(301, 401)]).transpose()   # (2, 100)  
 print(x1_datasets.shape)                                            # (100, 2)  #삼성전자 시가, 고가
 x2_datasets = np.array([range(101, 201), range(411, 511), range(150, 250)]).transpose()  # (3, 100) 나는 100행 3열을 원함! transpose를 사용하면 된다.
 print(x2_datasets.shape)                                            # (100, 3)  #아모레 시가, 고가, 종가
-
+#2
 y = np.array(range(2001, 2101))                                     # (100,)    #삼성전자 하루 뒤 종가
 print(y.shape)                                                      # (100,)
 
