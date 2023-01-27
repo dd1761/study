@@ -6,16 +6,16 @@ from tensorflow.keras.layers import Dense, Conv2D, Flatten   #Conv2D는 2차원
 model = Sequential()
                             # input = (60000, 5, 5, 1)
 model.add(Conv2D(filters=10, kernel_size=(2,2),          #filter는 안써도 상관 없음. kernel_size는 5,5짜리의 그림을 2,2크기의 그림으로 잘라서 4,4짜리의 그림이 됨.
-                 input_shape=(5, 5, 1)))             #(N,4,4, 10) 60000개를 N으로 써도 상관없음       #filter는 4,4크기의 그림 하나가 10개 들어간다. 
+                 input_shape=(10, 10, 1)))             #(N,4,4, 10) 60000개를 N으로 써도 상관없음       #filter는 4,4크기의 그림 하나가 10개 들어간다. 
                                                      # (batch_size, row. columns, channels) channels는 color batch_size는 훈련횟수로 연산. 
-
-
-
-model.add(Conv2D(filters=5, kernel_size=(2,2)))      #(N,3,3,5)            #Dense모양과 연결되어야함.
+model.add(Conv2D(5, kernel_size=(2,2)))
+model.add(Conv2D(7, kernel_size=(2,2)))      #(N,3,3,5)            #Dense모양과 연결되어야함.
+model.add(Conv2D(6,2))                                  # Conv2D는 2를 적으면 2,2로 인식한다.
 model.add(Flatten())                                 #(N, 45)       #flatten전의 데이터들은 전부 펴짐
 model.add(Dense(units=10))                           #(N, 10)       Conv2D에서 Dense의 기본 데이터는 units로 되어있다.
         #input 은 (batch_size, input_dim)
 model.add(Dense(4, activation='relu'))  # 지현, 성환, 건률, 렐루                                  #(N, 1)
+model.add(Dense(1))
 
 model.summary()
 
