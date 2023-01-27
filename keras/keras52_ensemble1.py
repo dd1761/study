@@ -1,5 +1,12 @@
 # 일요일까지(일요일 23시59분까지) 과제 제출
+# 날짜순으로
+# 데이터 변경은 엑셀파일로 하지 않는다.
+# 제목 : 김동빈 78,700원
+# 삼성 종가
+# 첨부파일은 월요일 시가
 
+
+import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Model, Sequential
