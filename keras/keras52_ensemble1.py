@@ -62,5 +62,5 @@ loss = model.evaluate([x1_test, x2_test], y_test)
 print('loss : ', loss)
 
 
-
+#
 
