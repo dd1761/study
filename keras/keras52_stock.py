@@ -125,3 +125,14 @@ samsung_y_predict=model.predict([samsung_x_predict, amore_x_predict])
 
 print("loss : ", loss)
 print("삼성전자 시가 :" , samsung_y_predict)
+
+
+'''
+
+loss :  1075919744.0
+삼성전자 시가 : [[66176.7]]
+
+
+
+
+'''
