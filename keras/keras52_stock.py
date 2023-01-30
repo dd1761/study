@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from tensorflow.keras.models import Model
+from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.layers import Dense, Dropout, Input, LSTM, concatenate
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from sklearn. preprocessing import MinMaxScaler
@@ -62,14 +62,15 @@ print(samsung_x_train.shape, samsung_x_test.shape)  # (1383, 5, 5) (593, 5, 5)
 print(samsung_y_train.shape, samsung_y_test.shape) # (1383, 1) (593, 1)
 print(amore_x_train.shape, amore_x_test.shape)  # (1383, 5, 5) (593, 5, 5)
 
+"""
 # 삼성전자
 input_sm = Input(shape=(5, 5))
-dense_sm1 = LSTM(64, return_sequences=True,activation='relu')(input_sm)
+dense_sm1 = LSTM(1024, return_sequences=True,activation='relu')(input_sm)
 dense_sm2 = Dropout(0.2)(dense_sm1)
-dense_sm3 = LSTM(128, activation='relu')(dense_sm2)
-dense_sm4 = Dense(512, activation='relu')(dense_sm3)
+dense_sm3 = LSTM(512, activation='relu')(dense_sm2)
+dense_sm4 = Dense(256, activation='relu')(dense_sm3)
 dense_sm5 = Dropout(0.2)(dense_sm4)
-dense_sm6 = Dense(512, activation='relu')(dense_sm5)
+dense_sm6 = Dense(128, activation='relu')(dense_sm5)
 dense_sm7 = Dense(64, activation='relu')(dense_sm6)
 dense_sm8 = Dropout(0.2)(dense_sm7)
 dense_sm9 = Dense(32, activation='relu')(dense_sm8)
@@ -77,12 +78,12 @@ output_sm = Dense(1)(dense_sm9)
 
 # 아모레퍼시픽
 input_am = Input(shape=(5, 5))
-dense_am1 = LSTM(64, return_sequences=True,activation='relu')(input_am)
+dense_am1 = LSTM(1024, return_sequences=True,activation='relu')(input_am)
 dense_am2 = Dropout(0.2)(dense_am1)
-dense_am3 = LSTM(125, activation='relu')(dense_am2)
-dense_am4 = Dense(512, activation='relu')(dense_am3)
+dense_am3 = LSTM(512, activation='relu')(dense_am2)
+dense_am4 = Dense(256, activation='relu')(dense_am3)
 dense_am5 = Dropout(0.2)(dense_am4)
-dense_am6 = Dense(512, activation='relu')(dense_am5)
+dense_am6 = Dense(128, activation='relu')(dense_am5)
 dense_am7 = Dense(64, activation='relu')(dense_am6)
 dense_am8 = Dropout(0.2)(dense_am7)
 dense_am9 = Dense(32, activation='relu')(dense_am8)
@@ -99,7 +100,9 @@ output_mg = Dense(1, activation='relu')(merge5)
 model = Model(inputs=[input_sm, input_am], outputs=[output_mg])
 model.summary()
 
+
 model.compile(loss='mse', optimizer= 'adam')
+
 
 date = datetime.datetime.now()
 date = date.strftime("%m%d_%H%M")
@@ -116,12 +119,17 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
                     #   filepath = path +'MCP/keras30_ModelCheckPoint3.hdf5'
                       filepath = filepath + 'k52_Samsung' + date + '_' + filename
                       )
-model.fit([samsung_x_train, amore_x_train], samsung_y_train , epochs=1024, batch_size=128, validation_split=0.2, callbacks=[es, mcp])
+model.fit([samsung_x_train, amore_x_train], samsung_y_train , epochs=1024, batch_size=128, validation_split=0.2, callbacks=[es, mcp]) 
 
-model.save_weights(PATH + 'stock_weight.h5') # 가중치만 저장
+"""
+# model.save_weights(PATH + 'stock_weight.h5') # 가중치 저장
 
-loss=model.evaluate([samsung_x_test, amore_x_test], samsung_y_test, batch_size=1024)
+model = load_model('c:/study/_save/MCP/k52_Samsung0129_2225_0061-1923355264.0000.hdf5')   # 모델 불러오기
+
+loss = model.evaluate([samsung_x_test, amore_x_test], samsung_y_test)
+
 samsung_y_predict=model.predict([samsung_x_predict, amore_x_predict])
+
 
 print("loss : ", loss)
 print("삼성전자 시가 :" , samsung_y_predict)
@@ -133,6 +141,7 @@ loss :  1075919744.0
 삼성전자 시가 : [[66176.7]]
 
 
-
+loss :  2914764544.0
+삼성전자 시가 : [[65339.234]]
 
 '''
