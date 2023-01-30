@@ -94,5 +94,12 @@ model.fit([x1_train, x2_train, x3_train], [y_train, y2_train], epochs=1000, batc
           ) 
 
 #4. 평가, 예측
-loss = model.evaluate([x1_test, x2_test, x3_test], [y_test, y2_test])
+loss = model.evaluate([x1_test, x2_test, x3_test], [y_test, y2_test])       
 print('loss : ', loss)
+
+
+'''
+
+loss :  [612.7621459960938, 10.915609359741211, 601.8465576171875]
+
+'''
