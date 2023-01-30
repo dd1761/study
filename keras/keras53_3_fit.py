@@ -65,7 +65,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
 # hist = model.fit_generator(xy_train, steps_per_epoch=16, epochs=100,
 #                     validation_data=xy_test, validation_steps=4)        #validation_steps=4는 120개의 데이터를 10개씩 4번 돌린다는 의미이다.
 
-hist = model.fit(xy_train[0][0],xy_train[0][1], 
+hist = model.fit(xy_train[0][0],xy_train[0][1],     
                     batch_size=16, epochs=100,     # xy_train[0][0] = x_train, xy_train[0][1] = y_train
                     validation_data=(xy_test[0][0], xy_test[0][1]), validation_steps=25)        #validation_steps=4는 120개의 데이터를 10개씩 4번 돌린다는 의미이다.
 
