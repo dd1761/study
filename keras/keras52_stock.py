@@ -9,12 +9,12 @@ import datetime
 
 PATH = 'c:/study/_data/'
 
-samsung = pd.read_csv(PATH + '삼성전자 주가.csv', header=0, index_col=None, sep=',', encoding='cp949', thousands=',').loc[::-1]
+samsung = pd.read_csv(PATH + '삼성전자 주가.csv', header=0, index_col=None, sep=',', encoding='cp949', thousands=',').loc[::-1] # loc[::-1] : 역순으로 데이터를 가져온다
 # print(samsung)
 # print(samsung.shape) #(1980, 17)
 
-amore = pd.read_csv(PATH + '아모레퍼시픽 주가.csv', header=0, index_col=None, sep=',', encoding='cp949', thousands=',').loc[::-1]
-# print(amore)
+amore = pd.read_csv(PATH + '아모레퍼시픽 주가.csv', header=0, index_col=None, sep=',', encoding='cp949', thousands=',').loc[::-1]   # loc[::-1] : 역순으로 데이터를 가져온다
+# print(amore)  
 # print(amore.shape)   #(2220, 17)
 
 # 삼성전자 x ,y 추출
@@ -43,10 +43,9 @@ def split_data(dataset, timesteps):
 
 samsung_x = split_data(samsung_x, 5)
 amore_x = split_data(amore_x, 5)
-# print(samsung_x.shape) #(1976, 5, 5)
-# print(amore_x.shape) #(1976, 5, 5)
 
-samsung_y = samsung_y[4:, :] # x 데이터와 shape을 맞춰주기 위해 4개 행 제거
+
+samsung_y = samsung_y[4:, :] 
 # print(samsung_y.shape) #(1976, 1)
 
 # 예측에 사용할 데이터 추출 (마지막 값)
