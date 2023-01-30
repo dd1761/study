@@ -62,7 +62,7 @@ print(samsung_x_train.shape, samsung_x_test.shape)  # (1383, 5, 5) (593, 5, 5)
 print(samsung_y_train.shape, samsung_y_test.shape) # (1383, 1) (593, 1)
 print(amore_x_train.shape, amore_x_test.shape)  # (1383, 5, 5) (593, 5, 5)
 
-"""
+
 # 삼성전자
 input_sm = Input(shape=(5, 5))
 dense_sm1 = LSTM(1024, return_sequences=True,activation='relu')(input_sm)
@@ -121,10 +121,10 @@ mcp = ModelCheckpoint(monitor='val_loss', mode='auto', verbose=1,
                       )
 model.fit([samsung_x_train, amore_x_train], samsung_y_train , epochs=1024, batch_size=128, validation_split=0.2, callbacks=[es, mcp]) 
 
-"""
+
 # model.save_weights(PATH + 'stock_weight.h5') # 가중치 저장
 
-model = load_model('c:/study/_save/MCP/k52_Samsung0129_2225_0061-1923355264.0000.hdf5')   # 모델 불러오기
+# model = load_model('c:/study/_save/MCP/k52_Samsung0129_2225_0061-1923355264.0000.hdf5')   # 모델 불러오기
 
 loss = model.evaluate([samsung_x_test, amore_x_test], samsung_y_test)
 
