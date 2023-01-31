@@ -98,7 +98,7 @@ train_datagen = ImageDataGenerator(
 dog = train_datagen.flow_from_directory(
     'c:/_data/cat_dog/dog/',             # 폴더 경로 지정
     target_size=(200, 200),             # 이미지 사이즈 지정               
-    class_mode=None,              # 수치형으로 변환
+    class_mode=None,              # one hot encoding
     # class_mode='categorical',           # one hot encoding
     color_mode='rgb',             # 흑백으로 변환
     shuffle=True,                       # 데이터를 섞어준다. 파이썬에서는 함수(괄호)안에서 ,를 마지막에 찍어도 작동이 된다.    
