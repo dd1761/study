@@ -47,7 +47,7 @@ xy_train = train_datagen.flow_from_directory(
 xy_test = test_datagen.flow_from_directory(
     'c:/_data/test/',                  # 폴더 경로 지정
     target_size=(200, 200),             # 이미지 사이즈 지정
-    batch_size=20,
+    batch_size=20,                        
     # class_mode='binary',                # 수치형으로 변환                       
     class_mode='binary',                # 수치형으로 변환
     color_mode='rgb',             # 흑백으로 변환

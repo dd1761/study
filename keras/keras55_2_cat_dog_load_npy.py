@@ -153,4 +153,13 @@ print('val_acc : ', val_acc[-1])
 
 loss2 = model.predict(dog)
 
-print(loss2)
+print("loss2 : " , loss2)
+
+'''
+loss :  0.00017577830294612795
+val_loss :  4.585111141204834
+accuracy :  1.0
+val_acc :  0.4000000059604645
+[[0.8739091]]
+
+'''
