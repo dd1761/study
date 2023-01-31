@@ -1,6 +1,8 @@
 import numpy as np
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.font_manager as fm
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+
 #1. 데이터
 
 train_datagen = ImageDataGenerator(
@@ -49,21 +51,31 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten,Dropout
 
 model = Sequential()
-model.add(Conv2D(128, (2,2), input_shape=(100, 100, 1)))     # 99 99 64
+model.add(Conv2D(128, (2,2), input_shape=(100, 100, 1)))     # 99 99 128
 model.add(Dropout(0.2))     
-model.add(Conv2D(64, (3,3), activation='relu'))             # 97 97 64
+model.add(Conv2D(64, (2,2), activation='relu'))             # 98 98 64
 model.add(Dropout(0.2))
-model.add(Conv2D(32, (3,3), activation='relu'))             # 95 95 32
+model.add(Conv2D(32, (2,2), activation='relu'))             # 95 95 32
 model.add(Flatten())                                        # 288000
 model.add(Dense(16, activation='relu'))                     # 16
 model.add(Dense(1, activation='sigmoid'))                   # 0~1 사이의 값으로 출력
+# model.add(Dense(2, activation='softmax'))                   # 0~1 사이의 값으로 출력
 
 #3. 컴파일, 훈련
-model.compile(loss='binary_crossentropy', optimizer='adam', 
+
+es = EarlyStopping(monitor='val_loss', patience=20, mode='min',   #val_loss가 10번이상 향상되지 않으면 멈춤.
+                              restore_best_weights=True,                        
+                              verbose=1 
+                              )
+
+# model.compile(loss='binary_crossentropy', optimizer='adam', 
+#               metrics=['acc'])
+
+model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', 
               metrics=['acc'])
 
 hist = model.fit_generator(xy_train, steps_per_epoch=16, epochs=100,
-                    validation_data=xy_test, validation_steps=4)        #validation_steps=4는 120개의 데이터를 10개씩 4번 돌린다는 의미이다.
+                    validation_data=xy_test, validation_steps=4, callbacks=es)        #validation_steps=4는 120개의 데이터를 10개씩 4번 돌린다는 의미이다.
 
 accuracy = hist.history['acc']                                   
 val_acc = hist.history['val_acc']                           

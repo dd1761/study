@@ -27,7 +27,7 @@ test_datagen = ImageDataGenerator(
 xy_train = train_datagen.flow_from_directory(
     './_data/brain/train/',             # 폴더 경로 지정
     target_size=(100, 100),             # 이미지 사이즈 지정
-    batch_size=1000,                       
+    batch_size=1000,                    
     class_mode='binary',                # 수치형으로 변환
     color_mode='grayscale',             # 흑백으로 변환
     shuffle=True,                       # 데이터를 섞어준다. 파이썬에서는 함수(괄호)안에서 ,를 마지막에 찍어도 작동이 된다.    
@@ -67,7 +67,11 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
 
 hist = model.fit(xy_train[0][0],xy_train[0][1],     
                     batch_size=16, epochs=100,     # xy_train[0][0] = x_train, xy_train[0][1] = y_train
-                    validation_data=(xy_test[0][0], xy_test[0][1]), validation_steps=25)        #validation_steps=4는 120개의 데이터를 10개씩 4번 돌린다는 의미이다.
+                    validation_data=(xy_test[0][0], xy_test[0][1]), 
+                    # validation_steps=25
+                    )        #validation_steps=4는 120개의 데이터를 10개씩 4번 돌린다는 의미이다.
+
+
 
 accuracy = hist.history['acc']                                   
 val_acc = hist.history['val_acc']                           
