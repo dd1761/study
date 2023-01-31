@@ -51,7 +51,7 @@ y_train = np.concatenate((y_train, x_augumented[0][1]))
 print(x_train.shape, y_train.shape)     # (100000, 28, 28, 1) (100000,)
 
 
-##
+#
 
 
 
