@@ -1,6 +1,6 @@
 import numpy as np
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
+import matplotlib.font_manager as fm
 #1. 데이터
 
 train_datagen = ImageDataGenerator(
@@ -77,3 +77,23 @@ print('val_acc : ', val_acc[-1])
 
 # 그림그리기 plt 땡겨서 
 
+import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
+path = "C:/NanumFontSetup_TTF_GOTHIC/NanumGothic.ttf"
+# font_path = "C:/Windows/Fonts/malgun.ttf"
+fontprop = fm.FontProperties(fname = path, size = 18)
+# font = font_manager.FontProperties(fname=font_path).get_name()
+# rc('font', family=font)
+
+
+
+plt.figure(figsize=(10,10))
+plt.plot(hist.history['loss'], color='red', marker='.', label='loss')   # 선의 색은 color='red'빨간색 maker='.'은 선의 형태는 점선으로 label='loss'는 선의 이름은 loss
+plt.plot(hist.history['val_loss'], color='blue', marker='.', label='val_loss')
+plt.grid()
+plt.xlabel('epochs')    #plt의 x축의 이름
+plt.ylabel('loss')      #plt의 y축의 이름
+plt.title('generator 손실함수', fontproperties=fontprop)
+# plt.legend()
+plt.legend(loc='upper center')    #upper, lower, center
+plt.show()
