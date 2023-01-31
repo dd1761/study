@@ -1,5 +1,11 @@
+# 가위 바위 보
+
 import numpy as np
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential, Model, load_model, save_model, Input
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout, LSTM, Conv1D, MaxPooling1D, GlobalAveragePooling2D
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from sklearn.model_selection import train_test_split
 
 
 train_datagen = ImageDataGenerator(
@@ -24,52 +30,55 @@ test_datagen = ImageDataGenerator(
                                 
 # flow 또는 flow_from_directory
 xy_train = train_datagen.flow_from_directory(
-    './_data/brain/train/',             # 폴더 경로 지정
+    'c:/_data/rps/',             # 폴더 경로 지정
     target_size=(200, 200),             # 이미지 사이즈 지정
-    batch_size=10000,                       
+    batch_size=1000,                       
     class_mode='binary',              # 수치형으로 변환
     # class_mode='categorical',           # one hot encoding
-    color_mode='grayscale',             # 흑백으로 변환
+    color_mode='rgb',             # 흑백으로 변환
     shuffle=True,                       # 데이터를 섞어준다. 파이썬에서는 함수(괄호)안에서 ,를 마지막에 찍어도 작동이 된다.    
     # Found 160 images belonging to 2 classes.
 )
 
+
+
+# print(cat_train)                        # <keras.preprocessing.image.DirectoryIterator object at 0x00000182C6143760>
+# print(dog_train)                        # <keras.preprocessing.image.DirectoryIterator object at 0x00000182BE134040>
+
+
+
+
 xy_test = test_datagen.flow_from_directory(
-    './_data/brain/test/',              # 폴더 경로 지정
-    target_size=(200, 200),             # 이미지 사이즈 지정
-    batch_size=10000,
-    class_mode='binary',                # 수치형으로 변환                       
-    # class_mode='categorical',                # 수치형으로 변환
-    color_mode='grayscale',             # 흑백으로 변환
+    'c:/_data/test/',                  # 폴더 경로 지정
+    target_size=(400, 400),             # 이미지 사이즈 지정
+    batch_size=1000,
+    # class_mode='binary',                # 수치형으로 변환                       
+    class_mode='categorical',                # 수치형으로 변환
+    color_mode='rgb',             # 흑백으로 변환
     shuffle=True,                       # 데이터를 섞어준다. 파이썬에서는 함수(괄호)안에서 ,를 마지막에 찍어도 작동이 된다.    
     # Found 120 images belonging to 2 classes.
 )
 
-print(xy_train)
-# <keras.preprocessing.image.DirectoryIterator object at 0x0000018B20D77AC0>
-
-from sklearn.datasets import load_iris
-datasets = load_iris()
-print(datasets)
-
 
 # print(xy_train[0])
 # print(xy_train[0][0])
-print(xy_train[0][1])               # y값 출력  [0. 0. 1. 1. 1.]
-print(xy_train[0][0].shape)         # (7, 200, 200, 1)
-print(xy_train[0][1].shape)         # (7,)
+# print(xy_train[0][1])               # y값 출력  [0. 0. 1. 1. 1.]
+print(xy_train[0][0].shape)           # (1000, 200, 200, 3)
+print(xy_train[0][1].shape)           # (1000, )
 
-np.save('./_data/brain/brain_x_train_x.npy', arr=xy_train[0][0])    # x값 저장  
-np.save('./_data/brain/brain_y_train_x.npy', arr=xy_train[0][1])    # y값 저장  
-# np.save('./_data/brain/brain_xy_train_xy.npy', arr=xy_train[0]) 
+print(xy_test[0][0].shape)           # (1000, 400, 400, 3)
+print(xy_test[0][1].shape)           # (1000, 2)
 
-np.save('./_data/brain/brain_x_test_x.npy', arr=xy_test[0][0])    # x값 저장
-np.save('./_data/brain/brain_y_test_x.npy', arr=xy_test[0][1])    # y값 저장
-# np.save('./_data/brain/brain_xy_test_xy.npy', arr=xy_test[0])
- 
+model = Sequential()
+model.add(Conv2D(32, (3, 3), input_shape=(200, 200, 3)))
+model.add(MaxPooling2D(pool_size=2))
+model.add(Conv2D(64, (3, 3)))
+model.add(MaxPooling2D(pool_size=2))
+model.add(Conv2D(128, (3, 3)))
+model.add(MaxPooling2D(pool_size=2))
+model.add(Flatten())
+model.add(Dense(64, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
 
-# print(type(xy_train))                # <class 'keras.preprocessing.image.DirectoryIterator'>
-# print(type(xy_train[0]))             # <class 'tuple'>  리스트와 동일하다. 튜플은  한번 생성하면 수정이 불가능하다.
-# print(type(xy_train[0][0]))          # <class 'numpy.ndarray'> numpy로 변경
-# print(type(xy_train[0][1]))          # <class 'numpy.ndarray'> numpy로 변경
-
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
+model.fit_generator(xy_train, steps_per_epoch=32, epochs=100, validation_data=xy_test, validation_steps=4)
